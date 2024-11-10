@@ -18,7 +18,7 @@ class CreateRolesTable extends Migration
                 $table->id();
                 $table->string('description');
                 $table->boolean('createAccess')->default(false);
-                $table->boolean('readAccess')->default(true);
+                $table->boolean('readAccess')->default(false);
                 $table->boolean('updateAccess')->default(false);
                 $table->boolean('deleteAccess')->default(false);
                 $table->boolean('authorizeAccess')->default(false);

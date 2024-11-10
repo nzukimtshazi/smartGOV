@@ -18,7 +18,7 @@ class CreateModulesTable extends Migration
                 $table->id();
                 $table->string('name');
                 $table->string('image_path');
-                $table->integer('role_id')->unsigned()->nullable();
+                $table->bigInteger('role_id')->unsigned();
                 $table->timestamps();
             });
             Schema::table('modules', function ($table) {
