@@ -17,7 +17,12 @@ class CreateInstitutionsTable extends Migration
             Schema::create('institutions', function (Blueprint $table) {
                 $table->id();
                 $table->string('name');
+                $table->string('type');
+                $table->bigInteger('district_id')->unsigned();
                 $table->timestamps();
+            });
+            Schema::table('institutions', function ($table) {
+                $table->foreign('district_id')->references('id')->on('districts');
             });
         }
     }
