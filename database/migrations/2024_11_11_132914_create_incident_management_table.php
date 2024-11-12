@@ -22,8 +22,6 @@ class CreateIncidentManagementTable extends Migration
                 $table->string('email');
                 $table->string('reportNo');
                 $table->string('institution_type');
-                $table->string('caller');
-                $table->string('type');
                 $table->string('route');
                 $table->string('GPS_longitude');
                 $table->string('GPS_latitude');
@@ -87,18 +85,23 @@ class CreateIncidentManagementTable extends Migration
                 $table->string('services_airForce');
                 $table->string('roadTraffic_inspectorate');
                 $table->string('MRCC_activated');
-                $table->string('first_onScene');
                 $table->string('call_status');
                 $table->string('reference');
                 $table->bigInteger('district_id')->unsigned();
                 $table->bigInteger('institution_id')->unsigned();
                 $table->bigInteger('user_id')->unsigned();
+                $table->bigInteger('caller_id')->unsigned();
+                $table->bigInteger('type_id')->unsigned();
+                $table->bigInteger('first_onScene_id')->unsigned();
                 $table->timestamps();
             });
             Schema::table('incident_management', function ($table) {
                 $table->foreign('district_id')->references('id')->on('districts');
                 $table->foreign('institution_id')->references('id')->on('institutions');
                 $table->foreign('user_id')->references('id')->on('users');
+                $table->foreign('caller_id')->references('id')->on('informers');
+                $table->foreign('type_id')->references('id')->on('incident_types');
+                $table->foreign('first_onScene_id')->references('id')->on('first_on_scene');
             });
         }
     }
