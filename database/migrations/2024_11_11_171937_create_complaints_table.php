@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInstitutionsTable extends Migration
+class CreateComplaintsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateInstitutionsTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('institutions')) {
-            Schema::create('institutions', function (Blueprint $table) {
+        if (!Schema::hasTable('complaints')) {
+            Schema::create('complaints', function (Blueprint $table) {
                 $table->id();
-                $table->string('name');
+                $table->string('type');
                 $table->timestamps();
             });
         }
@@ -29,6 +29,6 @@ class CreateInstitutionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('institutions');
+        Schema::dropIfExists('complaints');
     }
 }
