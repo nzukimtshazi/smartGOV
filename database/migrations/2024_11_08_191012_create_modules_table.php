@@ -18,11 +18,7 @@ class CreateModulesTable extends Migration
                 $table->id();
                 $table->string('name');
                 $table->string('image_path');
-                $table->bigInteger('role_id')->unsigned();
                 $table->timestamps();
-            });
-            Schema::table('modules', function ($table) {
-                $table->foreign('role_id')->references('id')->on('roles');
             });
         }
     }
