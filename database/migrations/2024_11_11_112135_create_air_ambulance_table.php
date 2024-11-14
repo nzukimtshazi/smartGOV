@@ -23,7 +23,6 @@ class CreateAirAmbulanceTable extends Migration
                 $table->string('aircraft_type', 30);
                 $table->string('caller_type', 30);
                 $table->string('service_provider', 30);
-                $table->string('incident', 30);
                 $table->string('motivation', 60);
                 $table->string('referring_district', 30);
                 $table->string('referring_institution', 30);
@@ -42,7 +41,6 @@ class CreateAirAmbulanceTable extends Migration
                 $table->integer('age');
                 $table->string('weight', 10);
                 $table->string('diagnosis', 30);
-                $table->string('caseType', 30);
                 $table->string('hotResponse_district', 30);
                 $table->string('weather', 20);
                 $table->string('GPS_latitude', 20);
@@ -126,12 +124,16 @@ class CreateAirAmbulanceTable extends Migration
                 $table->bigInteger('district_id')->unsigned();
                 $table->bigInteger('institution_id')->unsigned();
                 $table->bigInteger('user_id')->unsigned();
+                $table->bigInteger('caseType_id')->unsigned();
+                $table->bigInteger('incident_id')->unsigned();
                 $table->timestamps();
             });
             Schema::table('air_ambulance', function ($table) {
                 $table->foreign('district_id')->references('id')->on('districts');
                 $table->foreign('institution_id')->references('id')->on('institutions');
                 $table->foreign('user_id')->references('id')->on('users');
+                $table->foreign('caseType_id')->references('id')->on('case_types');
+                $table->foreign('incident_id')->references('id')->on('incidents');
             });
         }
     }
