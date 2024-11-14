@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateModulesTable extends Migration
+class CreateDistrictsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,11 @@ class CreateModulesTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('modules')) {
-            Schema::create('modules', function (Blueprint $table) {
+        if (!Schema::hasTable('districts')) {
+            Schema::create('districts', function (Blueprint $table) {
                 $table->id();
                 $table->string('name');
-                $table->string('image_path');
-                $table->bigInteger('role_id')->unsigned();
                 $table->timestamps();
-            });
-            Schema::table('modules', function ($table) {
-                $table->foreign('role_id')->references('id')->on('roles');
             });
         }
     }
@@ -34,6 +29,6 @@ class CreateModulesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('modules');
+        Schema::dropIfExists('districts');
     }
 }
