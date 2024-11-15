@@ -6,10 +6,14 @@
  * Time: 20:06
  */
 
-namespace app\Models;
+namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Module
+class Module extends Model
 {
+    use HasFactory;
 
+    protected $fillable = ['name', 'image_path'];
 }

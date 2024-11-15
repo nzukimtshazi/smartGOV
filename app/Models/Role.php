@@ -1,15 +1,20 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: dataXuser
+ * User: Nzuki
  * Date: 2024/11/14
  * Time: 18:29
  */
 
-namespace app\Models;
+namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Role
+class Role extends Model
 {
+    use HasFactory;
+
+    protected $fillable = ['description'];
 
 }

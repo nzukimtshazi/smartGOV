@@ -1,15 +1,20 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: dataXuser
+ * User: Nzuki
  * Date: 2024/11/14
  * Time: 18:33
  */
 
-namespace app\Models;
+namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
-class Institution
+class Institution extends Model
 {
+    use HasFactory;
+
+    protected $fillable = ['name', 'type', 'district_id'];
 
 }

@@ -1,87 +1,118 @@
-<!-- app/views/user/add.blade.php -->
+<!DOCTYPE html>
+<html lang="en">
 
-@extends('layout/layout')
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar With Bootstrap</title>
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
 
-@section('content')
-<!-- Create User Form... -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/sidebar.css" />
+    <link rel="stylesheet" href="css/acc_reg_cards.css" />
+    <link rel="stylesheet" href="css/textbox.css" />
+    <link rel="stylesheet" href="css/new_acc_navbar.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Research Funding Application</title>
 
-    <div class="row">
-        <div class="col-xs-12 col-sm-8 col-md-4 col-sm-offset-2 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Add New User</h3>
+</head>
+<body>
+<div class="navbar1">
+    <div class="icon">
+        <img src="images/gov_logo.png" style="margin-left:5%; width:250px; height:100px;">
+    </div>
+</div>
+<div class="nav" style="background-color: darkgreen;">
+    <h4 style="color:white; margin-top:2%; margin-left:2%; width:70%">NEW ACCOUNT REGISTRATION</h4>
+    <div class="icon">
+        <p class="logo" style="color:white; font-size: 50px;">Smart<span style="color:yellow;">GOV</span></p>
+        <p class="logo" style="margin-top:-30px; margin-left:30px; color:white; font-size:12px;">POWERED BY QUALITY DESIGNS</p>
+    </div>
+</div>
+
+
+<div class="navbar" style="background-color: yellow;">  <div class="icon"> </div> </div>
+<div class="wrapper" >
+
+    <aside id="sidebar" style="width:25%; background-color:white;">
+        <button class="btn" name="btn_login" style="color:darkgreen; border-color: yellow; margin:30px;
+        border-size: 13px;">Add Account Details</button>
+
+    </aside>
+
+    <div class="main p-3">
+        <div class="row">
+            <div class="column">
+                <div class="card">
+                    <label style="float:left;">First Name:<span style="color:red;">*</span></label>
+                    <input type="text" placeholder="Rikwest" require name="fname">
                 </div>
-                <div class="panel-body">
-                    <!-- if there are creation errors, they will show here -->
-                    {!! HTML::ul($errors->all()) !!}
+            </div>
+            <div class="column">
+                <div class="card">
+                    <label style="float:left;">Last Name:<span style="color:red;">*</span></label>
+                    <input type="text" placeholder="Silindza" require name="lname">
+                </div>
+            </div>
+            <div class="column">
+                <div class="card">
+                    <label style="float:left;">Contact No:<span style="color:red;">*</span></label>
+                    <input type="text" placeholder="+27 76 531 9631"require name="number">
+                </div>
+            </div>
+            <div class="column">
+                <div class="card">
+                    <label style="float:left;">e-Mail Address:</label>
+                    <input type="email" placeholder="rikwest@qdsystems.net" name="email">
+                </div>
+            </div>
+        </div><br>
 
-                    {!! Form::model(new App\Models\User, ['route' => ['storeUser']]) !!}
+        <div class="row">
+            <div class="column" style="width:48%;">
+                <div class="card">
+                    <label style="float:left;">Upload Image:</label>
+                    <input type="file"  require name="image">
+                </div>
+            </div>
+            <div class="column" style="width:48%;">
+                <div class="card">
+                    <label style="float:left;">District:<span style="color:red;">*</span></label>
+                    <select name='title' class='input'>
+                        <option value="Prof">Prof</option>  <option value='Dr'>Dr</option>  <option value='Mr'>Mr</option>
+                        <option value='Mrs'>Mrs</option>   <option value='Ms'>Ms</option>
+                    </select>
+                </div>
+            </div>
+        </div><br>
 
-                    <div class="form-group form-group-sm">
-                        {!! Form::label('name', 'Name:') !!}
-                        {!! Form::text('name', Request::old('name'), array('class' => 'form-control form-control-sm
-                        input-sm', 'required')) !!}
-                    </div>
-
-                    <div class="form-group form-group-sm">
-                        {!! Form::label('surname', 'Surname:') !!}
-                        {!! Form::text('surname', Request::old('surname'), array('class' => 'form-control
-                        form-control-sm input-sm', 'required')) !!}
-                    </div>
-
-                    <div class="form-group form-group-sm">
-                        {!! Form::label('role_id', 'User Role:') !!}
-                        <select class="form-control form-control-sm
-                        input-sm" required name="role_id" id="role_id">
-                            <option value="">Select User Role</option>
-                            @foreach($roles as $role)
-                            <option value="{{ $role->id }}">{{ $role->role_id }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-group form-group-sm">
-                        {!! Form::label('institution_id', 'Hospital/Clinic:') !!}
-                        <select class="form-control form-control-sm
-                        input-sm" required name="institution_id" id="institution_id">
-                            <option value="">Select Hospital or Clinic</option>
-                            @foreach($institutions as $institution)
-                            <option value="{{ $role->id }}">{{ $institution->institution_id }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div class="form-group form-group-sm">
-                        {!! Form::label('contactNo', 'Contact No:') !!}
-                        {!! Form::text('contactNo', Request::old('contactNo'), array('class' => 'form-control
-                        form-control-sm input-sm', 'required')) !!}
-                    </div>
-
-                    <div class="form-group form-group-sm">
-                        {!! Form::label('userName', 'User Name:') !!}
-                        {!! Form::text('userName', Request::old('userName'), array('class' => 'form-control
-                        form-control-sm input-sm', 'required')) !!}
-                    </div>
-
-                    <div class="form-group form-group-sm">
-                        {!! Form::label('email', 'Email:') !!}
-                        {!! Form::email('email', Request::old('email'), array('class' => 'form-control
-                        form-control-sm input-sm', 'required')) !!}
-                    </div>
-
-                    <div class="form-group form-group-sm">
-                        {!! Form::label('password', 'Password:') !!}
-                        {!! Form::password('password', array('class' => 'form-control form-control-sm
-                        input-sm', 'required')) !!}
-                    </div>
-
-                    <a href="{!!URL::route('login')!!}" class="btn btn-info" role="button">Cancel</a>
-                    {!! Form::submit('Add', array('class' => 'btn btn-primary')) !!}
-
-                    {!! Form::close() !!}
-
+        <div class="row">
+            <div class="column" style="width:48%;">
+                <div class="card">
+                    <label style="float:left;">Create Password:</label>
+                    <input type="password" placeholder="**********" require name="password">
+                </div>
+            </div>
+            <div class="column" style="width:48%;">
+                <div class="card">
+                    <label style="float:left;">Confirm Password:</label>
+                    <input type="password" placeholder="**********" require name="cpassword">
                 </div>
             </div>
         </div>
+        <button class="btn1" name="btn_login">REGISTER</button>
+        <button class="btn2" name="btn_reg">CANCEL</button>
     </div>
-@endsection
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+            crossorigin="anonymous"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
