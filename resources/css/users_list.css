@@ -1,0 +1,56 @@
+
+.box { 
+    float: right; 
+    height: 170px; 
+    width: 250px; 
+    color: white; 
+    text-align: center; 
+    padding: 20px; 
+}
+
+  .row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  .row {
+    display: flex;
+  }
+  
+  .column {
+    flex: 50%;
+    float: left;
+  }
+  .column {
+    float: left;
+  }
+  
+  .btn_add {
+    width:130px; 
+    background-color: darkgreen; 
+    color:white;
+    height: 35px;
+    border-radius: 5px;
+  }
+  
+  .btn_search {
+    width:30px; 
+    background-color: white; 
+    color:white;
+    height: 35px;
+  }
+
+  .txt_search {
+    /* width:100px;  */
+    background-color: white; 
+    color:black;
+    height: 35px;
+  }
+
+  
+
+  @media screen and (max-width: 600px) {
+    .column {
+      width: 100%;
+    }
+  }

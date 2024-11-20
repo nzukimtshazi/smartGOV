@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: Nzuki
- * Date: 2024/11/14
- * Time: 20:06
+ * Date: 2024/11/20
+ * Time: 08:45
  */
 
 namespace App\Models;
@@ -11,9 +11,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Module extends Model
+class Complaint extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'image_path'];
+    protected $fillable = ['type'];
 }

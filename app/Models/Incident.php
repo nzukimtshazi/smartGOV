@@ -2,18 +2,19 @@
 /**
  * Created by PhpStorm.
  * User: Nzuki
- * Date: 2024/11/14
- * Time: 20:06
+ * Date: 2024/11/19
+ * Time: 17:57
  */
 
-namespace App\Models;
+namespace app\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Module extends Model
+class Incident extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'image_path'];
+    protected $fillable = ['description'];
+
 }
