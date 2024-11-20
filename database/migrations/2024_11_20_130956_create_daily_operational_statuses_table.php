@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePtsBusesTable extends Migration
+class CreateDailyOperationalStatusesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,21 @@ class CreatePtsBusesTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('pts_buses')) {
-            Schema::create('pts_buses', function (Blueprint $table) {
+        if (!Schema::hasTable('daily_operational_statuses')) {
+            Schema::create('daily_operational_statuses', function (Blueprint $table) {
                 $table->id();
-                $table->string('name');
-                $table->integer('count');
+                $table->date('operational_date');
+                $table->string('shift');
+                $table->string('caller');
+                $table->string('position');
                 $table->string('reference');
                 $table->bigInteger('district_id')->unsigned();
+                $table->bigInteger('user_id')->unsigned();
                 $table->timestamps();
             });
-            Schema::table('pts_buses', function ($table) {
+            Schema::table('daily_operational_statuses', function ($table) {
                 $table->foreign('district_id')->references('id')->on('districts');
+                $table->foreign('user_id')->references('id')->on('users');
             });
         }
     }
@@ -35,6 +39,6 @@ class CreatePtsBusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pts_buses');
+        Schema::dropIfExists('daily_operational_statuses');
     }
 }

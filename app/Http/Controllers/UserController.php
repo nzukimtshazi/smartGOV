@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\District;
 use App\Models\Institution;
 use App\Models\Role;
 use App\Models\User;
@@ -31,9 +32,10 @@ class UserController extends Controller
      */
     public function add()
     {
-        $roles = Role::where('id', '>', 0)->get();
+        $districts = District::where('id', '>', 0)->get();
         $institutions = Institution::where('id', '>', 0)->get();
-        return view('user.add', compact('roles', 'institutions'));
+        $roles = Role::where('id', '>', 0)->get();
+        return view('user.add', compact('districts', 'institutions', 'roles'));
     }
 
     /**
@@ -44,13 +46,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        //dd($request);
         $input = $request->all();
         $user = new User($input);
-        $user->firstName = $request->name;
-        $user->surname = $request->surname;
+        $user->firstName = $request->fname;
+        $user->surname = $request->lname;
         $user->user_role = 'System Admin';
         $user->institution = 'Madadeni';
-        $user->contactNo = $request->contactNo;
+        //$user->district = 'Amajuba';
+        $user->contactNo = $request->number;
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->userName = $request->userName;

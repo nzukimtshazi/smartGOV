@@ -1,0 +1,42 @@
+.btn_add {
+    width:130px; 
+    background-color: darkgreen; 
+    color:white;
+    height: 35px;
+    border-radius: 5px;
+  }
+  
+  .btn_search {
+    width:30px; 
+    background-color: white; 
+    color:white;
+    height: 35px;
+  }
+
+  .txt_search {
+    /* width:100px;  */
+    background-color: white; 
+    color:black;
+    height: 35px;
+  }
+  .column1 {
+    float: left;
+    /* width: 50%; */
+   
+  }
+
+  .row1:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  .row1 {
+    display: flex;
+  }
+  
+  .column1 {
+    flex: 50%;
+  }
+  .column1 {
+    float: left;
+  }

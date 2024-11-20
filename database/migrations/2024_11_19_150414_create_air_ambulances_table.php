@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAirAmbulanceTable extends Migration
+class CreateAirAmbulancesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class CreateAirAmbulanceTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('air_ambulance')) {
-            Schema::create('air_ambulance', function (Blueprint $table) {
+        if (!Schema::hasTable('air_ambulances')) {
+            Schema::create('air_ambulances', function (Blueprint $table) {
                 $table->id();
                 $table->string('name', 60);
                 $table->string('telephoneNo', 10);
@@ -128,7 +128,7 @@ class CreateAirAmbulanceTable extends Migration
                 $table->bigInteger('incident_id')->unsigned();
                 $table->timestamps();
             });
-            Schema::table('air_ambulance', function ($table) {
+            Schema::table('air_ambulances', function ($table) {
                 $table->foreign('district_id')->references('id')->on('districts');
                 $table->foreign('institution_id')->references('id')->on('institutions');
                 $table->foreign('user_id')->references('id')->on('users');
@@ -145,6 +145,6 @@ class CreateAirAmbulanceTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('air_ambulance');
+        Schema::dropIfExists('air_ambulances');
     }
 }

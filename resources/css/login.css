@@ -1,13 +1,6 @@
 *{
     margin: 0;
     padding: 0;
-    
-}
-
-body{
-    min-width:1000px;        
-    width: auto !important;  
-    width:1000px;
 }
 
 .content .login_logo{
@@ -17,7 +10,7 @@ body{
 
 .main{
     /* width: 100%; */
-    background: linear-gradient(to top, rgba(0,0,0,0.5)50%,rgba(0,0,0,0.5)50%), url(1.jpg);
+    /* background: linear-gradient(to top, rgba(0,0,0,0.5)50%,rgba(0,0,0,0.5)50%), url(img/background.jpg); */
     background-position: center;
     background-size: cover;
     height: 100vh;
@@ -186,6 +179,10 @@ ul li a:hover{
     text-decoration: none;
     color: #000;
     transition: .3s ease;
+}
+
+::placeholder {
+	color:#cbd0d5;
 }
 
 .cn:hover{
@@ -367,5 +364,44 @@ ul li a:hover{
     width: 95%;
     border-radius: 5px;
     margin: 20px auto;
+}
+
+*:not(span) {
+    position: relative;
+    display: inherit;
+    border-radius: inherit;
+    margin: 0;
+    border: none;
+    outline: none;
+    padding: 0 .325em;
+    z-index: 1; 
+    
+    
+    &:focus + span {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+span {
+    
+    transform: scale(.993, .94); 
+    transition: transform .5s, opacity .25s;
+    opacity: 0; 
+    
+    position:absolute;
+    z-index: 0; 
+    margin:4px; 
+    left:0;
+    top:0;
+    right:0;
+    bottom:0;
+    border-radius: inherit;
+    pointer-events: none; 
+    
+    box-shadow: inset 0 0 0 3px #fff,
+        0 0 0 4px #fff,
+        3px -3px 30px #1beabd, 
+        -3px 3px 30px #10abff;
 }
 

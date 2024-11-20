@@ -18,6 +18,7 @@ class CreateOperationalSupportTable extends Migration
                 $table->id();
                 $table->string('name');
                 $table->integer('count');
+                $table->string('reference');
                 $table->bigInteger('district_id')->unsigned();
                 $table->timestamps();
             });

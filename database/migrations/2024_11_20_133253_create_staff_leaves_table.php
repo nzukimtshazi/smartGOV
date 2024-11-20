@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePtsBusesTable extends Migration
+class CreateStaffLeavesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class CreatePtsBusesTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('pts_buses')) {
-            Schema::create('pts_buses', function (Blueprint $table) {
+        if (!Schema::hasTable('staff_leaves')) {
+            Schema::create('staff_leaves', function (Blueprint $table) {
                 $table->id();
-                $table->string('name');
+                $table->string('description');
                 $table->integer('count');
                 $table->string('reference');
                 $table->bigInteger('district_id')->unsigned();
                 $table->timestamps();
             });
-            Schema::table('pts_buses', function ($table) {
+            Schema::table('staff_leaves', function ($table) {
                 $table->foreign('district_id')->references('id')->on('districts');
             });
         }
@@ -35,6 +35,6 @@ class CreatePtsBusesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pts_buses');
+        Schema::dropIfExists('staff_leaves');
     }
 }
