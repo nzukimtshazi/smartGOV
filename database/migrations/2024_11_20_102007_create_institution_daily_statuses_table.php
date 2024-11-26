@@ -17,12 +17,11 @@ class CreateInstitutionDailyStatusesTable extends Migration
             Schema::create('institution_daily_statuses', function (Blueprint $table) {
                 $table->id();
                 $table->string('name');
-                $table->string('role');
-                $table->string('mobileNo');
+                $table->integer('mobileNo');
                 $table->string('email');
                 $table->string('institution_type');
                 $table->string('manager');
-                $table->string('contactNo');
+                $table->integer('contactNo');
                 $table->integer('no_of_admissions');
                 $table->string('admission_information');
                 $table->integer('no_of_deaths');
@@ -34,12 +33,14 @@ class CreateInstitutionDailyStatusesTable extends Migration
                 $table->bigInteger('district_id')->unsigned();
                 $table->bigInteger('institution_id')->unsigned();
                 $table->bigInteger('user_id')->unsigned();
+                $table->bigInteger('role_id')->unsigned();
                 $table->timestamps();
             });
             Schema::table('institution_daily_statuses', function ($table) {
                 $table->foreign('district_id')->references('id')->on('districts');
                 $table->foreign('institution_id')->references('id')->on('institutions');
                 $table->foreign('user_id')->references('id')->on('users');
+                $table->foreign('role_id')->references('id')->on('roles');
             });
         }
     }

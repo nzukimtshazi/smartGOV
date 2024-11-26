@@ -17,8 +17,8 @@ class CreateForensicMortuariesTable extends Migration
             Schema::create('forensic_mortuaries', function (Blueprint $table) {
                 $table->id();
                 $table->string('name');
-                $table->string('contactNo');
-                $table->string('mobileNo');
+                $table->integer('contactNo');
+                $table->integer('mobileNo');
                 $table->string('deceased_name');
                 $table->string('gender');
                 $table->integer('age');

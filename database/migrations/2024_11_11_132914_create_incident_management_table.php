@@ -17,14 +17,14 @@ class CreateIncidentManagementTable extends Migration
             Schema::create('incident_management', function (Blueprint $table) {
                 $table->id();
                 $table->string('name');
-                $table->string('telephoneNo');
-                $table->string('mobileNo');
+                $table->integer('telephoneNo');
+                $table->integer('mobileNo');
                 $table->string('email');
                 $table->string('reportNo');
                 $table->string('institution_type');
                 $table->string('route');
-                $table->string('GPS_longitude');
                 $table->string('GPS_latitude');
+                $table->string('GPS_longitude');
                 $table->string('incident_location');
                 $table->integer('adult_entrapments');
                 $table->integer('adult_red');

@@ -17,4 +17,8 @@ class Institution extends Model
 
     protected $fillable = ['name', 'type', 'district_id'];
 
+    public function district()
+    {
+        return $this->belongsTo(District::class);
+    }
 }

@@ -33,9 +33,21 @@ class UserController extends Controller
     public function add()
     {
         $districts = District::where('id', '>', 0)->get();
-        $institutions = Institution::where('id', '>', 0)->get();
         $roles = Role::where('id', '>', 0)->get();
-        return view('user.add', compact('districts', 'institutions', 'roles'));
+        return view('user.add', compact('districts', 'roles'));
+    }
+
+    /**
+     * Ajax call to return all institutions
+     *
+     * @return Institution
+     */
+
+    // Fetch institutions based on district id (AJAX)
+    public function getInstitutions($id)
+    {
+        $institutions = Institution::where('district_id', $id)->get();
+        return response()->json($institutions);  // Return as JSON for AJAX
     }
 
     /**
@@ -46,28 +58,36 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request);
-        $input = $request->all();
-        $user = new User($input);
-        $user->firstName = $request->fname;
-        $user->surname = $request->lname;
-        $user->user_role = 'System Admin';
-        $user->institution = 'Madadeni';
-        //$user->district = 'Amajuba';
-        $user->contactNo = $request->number;
-        $user->email = $request->email;
-        $user->password = Hash::make($request->password);
-        $user->userName = $request->userName;
-
-        $exists = User::where('email', $user->email)->first();
+        $exists = User::where('email', $request->email)->first();
         if ($exists) {
-            return Redirect::route('addUser')->withInput()->with('danger', 'User with email "' . $user->email . '" already exists!');
+            return Redirect::route('addUser')->withInput()->with('danger', 'User with email "' . $request->email . '" already exists!');
         }
 
-        if ($user->save())
-            return Redirect::route('users')->with('success', 'Successfully added user!');
-        else
-            return Redirect::route('addUser')->withInput()->withErrors($user->errors());
+        //return Redirect::route('sendOtp', [$request->number]);
+
+        $district = District::find($request->district);
+        $institution = Institution::find($request->institution);
+        $role = Role::find($request->role_id);
+        $filename = '';
+
+        if ($request->hasFile('image')) {
+            $filename = $request->getSchemeAndHttpHost() . '/images/' . time() . '.' . $request->image->extension();
+            $request->image->move(public_path('/images/'), $filename);
+        }
+        $user = User::create([
+            'firstName' => $request->fname,
+            'lastName' => $request->lname,
+            'contactNo' => $request->number,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'userName' => $request->userName,
+            'image_path' => $filename,
+            'district' => $district->name,
+            'institution' => $institution->name,
+            'user_role' => $role->description,
+        ]);
+
+        return view('user.login');
     }
 
     /**

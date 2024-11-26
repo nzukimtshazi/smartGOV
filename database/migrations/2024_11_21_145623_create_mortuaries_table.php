@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOperationalSupportTable extends Migration
+class CreateMortuariesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,16 @@ class CreateOperationalSupportTable extends Migration
      */
     public function up()
     {
-        if (!Schema::hasTable('operational_support')) {
-            Schema::create('operational_support', function (Blueprint $table) {
+        if (!Schema::hasTable('mortuaries')) {
+            Schema::create('mortuaries', function (Blueprint $table) {
                 $table->id();
                 $table->string('name');
-                $table->integer('count');
-                $table->string('reference');
+                $table->integer('contactNo');
+                $table->integer('mobileNo');
                 $table->bigInteger('district_id')->unsigned();
                 $table->timestamps();
             });
-            Schema::table('operational_support', function ($table) {
+            Schema::table('mortuaries', function ($table) {
                 $table->foreign('district_id')->references('id')->on('districts');
             });
         }
@@ -35,6 +35,6 @@ class CreateOperationalSupportTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('operational_support');
+        Schema::dropIfExists('mortuaries');
     }
 }

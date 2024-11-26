@@ -15,9 +15,10 @@ class CreateComplaintManagementTable extends Migration
     {
         if (!Schema::hasTable('complaint_management')) {
             Schema::create('complaint_management', function (Blueprint $table) {
+                $table->id();
                 $table->string('name');
-                $table->string('telephoneNo');
-                $table->string('mobileNo');
+                $table->integer('telephoneNo');
+                $table->integer('mobileNo');
                 $table->string('email');
                 $table->string('caller_type');
                 $table->string('company');

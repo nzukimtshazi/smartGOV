@@ -13,6 +13,7 @@ use App\Models\ComplaintManagement;
 use App\Models\District;
 use App\Models\Institution;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class ComplaintManagementController extends Controller
@@ -24,8 +25,8 @@ class ComplaintManagementController extends Controller
      */
     public function index()
     {
-        dd('Successfully managed a complaint');
-        //return view('complaint_management.index');
+        $complaints = ComplaintManagement::where('id', '>', 0)->get();
+        return view('complaint_management.index', compact('complaints'));
     }
     /**
      * Show the form for creating a new resource.
@@ -59,9 +60,10 @@ class ComplaintManagementController extends Controller
         $complaint_management->location = $request->location;
         $complaint_management->location_ofIncident = $request->location_ofIncident;
         $complaint_management->additional_info = $request->additional_info;
-        $complaint_management->reference = 'IM01';
+        $complaint_management->reference = 'CM-' . time() . '-' . rand(0, 00);
         $complaint_management->district_id = $request->district_id;
-        $complaint_management->user_id = 1;
+        $user = Auth::user();
+        $complaint_management->user_id = $user->getAuthIdentifier();
         $complaint_management->complaints_id = $request->type_id;
 
         if ($complaint_management->save())

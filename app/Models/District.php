@@ -17,4 +17,8 @@ class District extends Model
 
     protected $fillable = ['name'];
 
+    public function institutions()
+    {
+        return $this->hasMany(Institution::class);
+    }
 }

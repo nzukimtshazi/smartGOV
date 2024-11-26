@@ -12,6 +12,7 @@ use App\Models\Classification;
 use App\Models\District;
 use App\Models\ForensicMortuary;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class ForensicController extends Controller
@@ -76,11 +77,12 @@ class ForensicController extends Controller
         $forensic_mortuary->depot = $request->depot;
         $forensic_mortuary->crew1 = $request->crew1;
         $forensic_mortuary->crew2 = $request->crew2;
-        $forensic_mortuary->call_status = 'n/a'; //$request->call_status;
-        $forensic_mortuary->reference = 'FM01';
-        $forensic_mortuary->district_id = $request->district_id;
+        $forensic_mortuary->call_status = $request->additional_info;
+        $forensic_mortuary->reference = 'FM-' . time() . '-' . rand(0, 00);
+        $forensic_mortuary->district_id = $request->district;
         $forensic_mortuary->classification_id = $request->classification_id;
-        $forensic_mortuary->user_id = 1;
+        $user = Auth::user();
+        $forensic_mortuary->user_id = $user->getAuthIdentifier();
 
         if ($forensic_mortuary->save())
             return Redirect::route('foreMort')->with('success', 'Successfully logged a forensic report!');

@@ -17,8 +17,8 @@ class CreateGenericCallsTable extends Migration
             Schema::create('generic_calls', function (Blueprint $table) {
                 $table->id();
                 $table->string('name');
-                $table->string('telephoneNo');
-                $table->string('mobileNo');
+                $table->integer('telephoneNo');
+                $table->integer('mobileNo');
                 $table->string('email');
                 $table->string('call_type');
                 $table->string('institution_type');
