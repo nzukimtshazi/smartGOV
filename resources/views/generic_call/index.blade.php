@@ -13,7 +13,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="btn-group mr-2 mb-sm-0 float-sm-right mt-1">
-                            <a href="generic_call/add" role="button"
+                            <a href="generic_call/create" role="button"
                                class="btn btn-sm btn-outline-info waves-light waves-effect"><i
                                         class="ri-add-circle-line align-middle mr-2"></i>Log a Call</a>
                         </div>
@@ -48,10 +48,9 @@
 
                                         <td>
                                             <div>
-                                                <a href="{!!URL::route('editCall',[$generic->id,
-                                                 'generic_call_id' => $generic->id])!!}"
-                                                   class="btn btn-sm btn-info mt-n2"><i
-                                                            class="ri-edit-2-line mr-1"></i>View</a>
+                                                <a href="{!! URL::route('editCall', [$generic->id]) !!}" class="btn btn-sm btn-info mt-n2">
+                                                    <i class="ri-edit-2-line mr-1"></i> View
+                                                </a>
                                             </div>
                                         </td>
 
@@ -77,12 +76,18 @@
 
                                         <!-- District -->
                                         <td class="table-text">
-                                            <div>{{ $generic->district_id }}</div>
+                                            <?php
+                                                $district = \App\Models\District::find($generic->district_id);
+                                            ?>
+                                            <div>{{ $district->name }}</div>
                                         </td>
 
                                         <!-- Institution -->
                                         <td class="table-text">
-                                            <div>{{ $generic->institution_id }}</div>
+                                            <?php
+                                                $institution = \App\Models\Institution::find($generic->institution_id);
+                                            ?>
+                                            <div>{{ $institution->name }}</div>
                                         </td>
 
                                         <!-- Institution Type -->

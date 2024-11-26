@@ -194,25 +194,25 @@
                 <div class="user-details" style="display:inline;">
                     <div class="input-box4">
                         <span class="details">Caller Name:</span>
-                        <input type="text" name="name">
+                        <input type="text" name="name" required>
                     </div>
                     <div class="input-box4">
                         <span class="details">Telephone No:</span>
-                        <input type="text" name="telephoneNo">
+                        <input type="text" name="telephoneNo" required>
                     </div>
                     <div class="input-box4">
                         <span class="details">Mobile No:</span>
-                        <input type="text" name="mobileNo">
+                        <input type="text" name="mobileNo" required>
                     </div>
                     <div class="input-box4">
                         <span class="details">e-Mail Address:</span>
-                        <input type="text" name="email">
+                        <input type="text" name="email" required>
                     </div>
                 </div>
                 <div class="user-details" style="display:inline;">
                     <div class="input-box4">
                         <span class="details">Caller Type:</span>
-                        <select name="caller_type" id="caller_type">
+                        <select name="caller_type" id="caller_type" required>
                             <option value="*">Choose Caller Type</option>
                             <option value="Internal">Internal</option>
                             <option value="External">External</option>
@@ -220,15 +220,15 @@
                     </div>
                     <div class="input-box4">
                         <span class="details">Company:</span>
-                        <input type="text" name="company">
+                        <input type="text" name="company" required>
                     </div>
                     <div class="input-box4">
                         <span class="details">Contact Person:</span>
-                        <input type="text" name="contact_person">
+                        <input type="text" name="contact_person" required>
                     </div>
                     <div class="input-box4">
                         <span class="details">Location:</span>
-                        <input type="text" name="location">
+                        <input type="text" name="location" required>
                     </div>
                 </div>
             </fieldset>
@@ -238,7 +238,7 @@
                 <div class="user-details" style="display:inline;">
                     <div class="input-box4" style="width:33%;">
                         <span class="details">Complaint Type:</span>
-                        <select class="form-control input-sm form-control-sm" name="type_id" id="type_id">
+                        <select class="form-control input-sm form-control-sm" name="type_id" id="type_id" required>
                             <option value="">Select Complaint Type</option>
                             @foreach($complaint_types as $type)
                                 <option value="{{$type->id}}" @if(old('type_id')==$type->id)
@@ -248,11 +248,11 @@
                     </div>
                     <div class="input-box4" style="width:33%;">
                         <span class="details">Location of Incident:</span>
-                        <input type="text" name="location_ofIncident">
+                        <input type="text" name="location_ofIncident" required>
                     </div>
                     <div class="input-box4" style="width:33%;">
                         <span class="details">District of Incident:</span>
-                        <select class="form-control input-sm form-control-sm" name="district_id" id="district_id">
+                        <select class="form-control input-sm form-control-sm" name="district_id" id="district_id" required>
                             <option value="">Select District</option>
                             @foreach($districts as $district)
                                 <option value="{{$district->id}}" @if(old('district_id')==$district->id)
@@ -264,7 +264,7 @@
                 <div class="user-details" style="display:inline;">
                     <div class="input-box1">
                         <span class="details">Additional Complaint Information:</span>
-                        <textarea id="w3review" name="additional_info"></textarea>
+                        <textarea id="w3review" name="additional_info" required></textarea>
                     </div>
                 </div>
             </fieldset>

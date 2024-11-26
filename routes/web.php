@@ -10,6 +10,8 @@ use App\Http\Controllers\IncidentManagementController;
 use App\Http\Controllers\ComplaintManagementController;
 use App\Http\Controllers\InstitutionDailyStatusController;
 use App\Http\Controllers\ForensicController;
+use App\Http\Controllers\OTPController;
+use App\Http\Controllers\DailyOperationalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +40,8 @@ Route::get('users/logout', [UserController::class, 'doLogout'])->name('logout');
 // add user
 Route::get('user/add', [UserController::class, 'add'])->name('addUser');
 
+Route::get('get-institutions/{districtId}', [UserController::class, 'getInstitutions']);
+
 // store user
 Route::post('user/store', [UserController::class, 'store'])->name('storeUser');
 
@@ -45,7 +49,7 @@ Route::post('user/store', [UserController::class, 'store'])->name('storeUser');
 Route::get('users', [UserController::class, 'index'])->name('users');
 
 // route to edit users
-Route::get('user/edit', [UserController::class, 'edit'])->name('editUser');
+Route::get('user/edit/{id}', [UserController::class, 'edit'])->name('editUser');
 
 // route to list module
 Route::get('modules', [ModuleController::class, 'index'])->name('modules');
@@ -62,14 +66,11 @@ Route::get('generic_call/create', [GenericCallController::class, 'create'])->nam
 // store generic call
 Route::post('generic_call/store', [GenericCallController::class, 'store'])->name('storeCall');
 
-//route to view generic call record
-Route::get('generic_call/edit', [GenericCallController::class, 'edit'])->name('editCall');
-
 // route to list generic calls made
 Route::get('calls', [GenericCallController::class, 'index'])->name('calls');
 
-// add complaint_management
-Route::get('complaint_management/add', [ComplaintController::class, 'add'])->name('addComplaint');
+//route to view generic call record
+Route::get('generic_call/edit/{id}', [GenericCallController::class, 'edit'])->name('editCall');
 
 // add air ambulance page 1
 Route::get('air_ambulance/add', [AirAmbulanceController::class, 'add'])->name('addAirAmb');
@@ -85,7 +86,7 @@ Route::post('air_ambulance/store', [AirAmbulanceController::class, 'store'])->na
 Route::get('air_ambulance', [AirAmbulanceController::class, 'index'])->name('air_ambulance');
 
 //route to view air ambulance record
-Route::get('air_ambulance/edit', [AirAmbulanceController::class, 'edit'])->name('editAirAmb');
+Route::get('air_ambulance/edit/{id}', [AirAmbulanceController::class, 'edit'])->name('editAirAmb');
 
 // add incident management
 Route::get('incident_management/add', [IncidentManagementController::class, 'add'])->name('addIncMan');
@@ -97,7 +98,7 @@ Route::post('incident_management/store', [IncidentManagementController::class, '
 Route::get('incident_management', [IncidentManagementController::class, 'index'])->name('incMan');
 
 // route to edit incident management
-Route::get('incident_management/edit', [IncidentManagementController::class, 'edit'])->name('editIncMan');
+Route::get('incident_management/edit/{id}', [IncidentManagementController::class, 'edit'])->name('editIncMan');
 
 // add complaint management
 Route::get('complaint_management/add', [ComplaintManagementController::class, 'add'])->name('addComMan');
@@ -109,7 +110,7 @@ Route::post('complaint_management/store', [ComplaintManagementController::class,
 Route::get('complaint_management', [ComplaintManagementController::class, 'index'])->name('comMan');
 
 // route to edit complaint management
-Route::get('complaint_management/edit', [ComplaintManagementController::class, 'edit'])->name('editComMan');
+Route::get('complaint_management/edit/{id}', [ComplaintManagementController::class, 'edit'])->name('editComMan');
 
 // add hospital/clinic daily status
 Route::get('institution_status/add', [InstitutionDailyStatusController::class, 'add'])->name('addSta');
@@ -121,7 +122,7 @@ Route::post('institution_status/store', [InstitutionDailyStatusController::class
 Route::get('institution_status', [InstitutionDailyStatusController::class, 'index'])->name('instStatus');
 
 // route to edit hospital/clinic daily status
-Route::get('institution_status/edit', [InstitutionDailyStatusController::class, 'edit'])->name('editStatus');
+Route::get('institution_status/edit/{id}', [InstitutionDailyStatusController::class, 'edit'])->name('editStatus');
 
 // add forensic/mortuary
 Route::get('forensic_mortuary/add', [ForensicController::class, 'add'])->name('addFM');
@@ -133,5 +134,19 @@ Route::post('forensic_mortuary/store', [ForensicController::class, 'store'])->na
 Route::get('forensic_mortuary', [ForensicController::class, 'index'])->name('foreMort');
 
 // route to edit forensic/mortuary
-Route::get('forensic_mortuary/edit', [ForensicController::class, 'edit'])->name('editFM');
+Route::get('forensic_mortuary/edit/{id}', [ForensicController::class, 'edit'])->name('editFM');
+
+// route to send an otp
+Route::get('/sendOtpToMobile/{mobileNumber}', [OTPController::class, 'sendOtpToMobile'])->name('sendOtp');
+
+// add daily operational status
+Route::get('daily_operational/create', [DailyOperationalController::class, 'create'])->name('createDOS');
+
+// store daily operational status
+Route::post('daily_operational/store', [DailyOperationalController::class, 'store'])->name('storeDOS');
+
+// route to list forensic/mortuary
+Route::get('daily_operational', [DailyOperationalController::class, 'index'])->name('listDOS');
+
+
 

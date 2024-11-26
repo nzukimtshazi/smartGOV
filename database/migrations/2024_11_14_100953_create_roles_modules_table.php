@@ -30,7 +30,7 @@ class CreateRolesModulesTable extends Migration
             });
             Schema::table('roles_modules', function ($table) {
                 $table->foreign('role_id')->references('id')->on('roles');
-                $table->foreign('module_id')->references('id')->on('module');
+                $table->foreign('module_id')->references('id')->on('modules');
             });
         }
     }

@@ -99,7 +99,10 @@
 
                                         <!-- District -->
                                         <td class="table-text">
-                                            <div>{{ $forensic->district_id }}</div>
+                                            <?php
+                                                $district = \App\Models\District::find($forensic->district_id);
+                                            ?>
+                                            <div>{{ $district->name }}</div>
                                         </td>
 
                                         <!-- Feedback -->

@@ -12,27 +12,16 @@
         <div class="col-md-8 col-xl-8 mx-auto">
             <div class="card">
                 <div class="card-body">
-                    <div class="btn-group mr-2 mb-sm-0 float-sm-right mt-1">
-                        <a href="user/add" role="button"
-                           class="btn btn-sm btn-outline-info waves-light waves-effect"><i
-                                class="ri-add-circle-line align-middle mr-2"></i>Add User</a>
-                    </div>
-
-                    <h4>Users </h4>
+                    <h4>ALL USERS
+                        <div class="btn-group mr-2 mb-sm-0 float-sm-right mt-1 text-right">
+                            <a href="user/add" role="button"
+                               class="btn btn-sm btn-outline-info waves-light waves-effect"><i
+                                        class="ri-add-circle-line align-middle mr-2"></i>Add User</a>
+                        </div>
+                    </h4>
 
                     <table class="table table-striped mt-5" id="dataTable">
                         @if (count($users) > 0)
-
-                        <!-- Table Headings -->
-                        <thead>
-                        <th>Username</th>
-                        <th>Name</th>
-                        <th>Role</th>
-                        <th>Institution</th>
-                        <th>E-mail Address</th>
-                        <th>Contact No.</th>
-                        <th>Action</th>
-                        </thead>
 
                         <!-- Table Body -->
                         <tbody>

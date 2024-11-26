@@ -69,12 +69,18 @@
 
                                         <!-- District -->
                                         <td class="table-text">
-                                            <div>{{ $status->district_id }}</div>
+                                            <?php
+                                                $district = \App\Models\District::find($status->district_id);
+                                            ?>
+                                            <div>{{ $district->name }}</div>
                                         </td>
 
                                         <!-- Institution -->
                                         <td class="table-text">
-                                            <div>{{ $status->institution_id }}</div>
+                                            <?php
+                                                $institution = \App\Models\Institution::find($status->institution_id);
+                                            ?>
+                                            <div>{{ $institution->name }}</div>
                                         </td>
 
                                         <!-- Institution Type -->

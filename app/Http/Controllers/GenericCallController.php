@@ -13,6 +13,7 @@ use App\Models\District;
 use App\Models\GenericCall;
 use App\Models\Institution;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class GenericCallController extends Controller
@@ -58,15 +59,27 @@ class GenericCallController extends Controller
         $genericCall->email = $request->email;
         $genericCall->call_type = $request->call_type;
         $genericCall->institution_type = $request->institution_type;
-        //$genericCall->call_status = $request->email;
-        $genericCall->reference = 'GC01';
-        $genericCall->district_id = $request->district_id;
-        $genericCall->institution_id = $request->institution_id;
-        $genericCall->user_id = 1;
+        $genericCall->call_status = $request->complaint_info;
+        $genericCall->reference = 'GC-' . time() . '-' . rand(0, 00);
+        $genericCall->district_id = $request->district;
+        $genericCall->institution_id = $request->institution;
+        $user = Auth::user();
+        $genericCall->user_id = $user->getAuthIdentifier();
 
         if ($genericCall->save())
             return Redirect::route('calls')->with('success', 'Successfully added a call!');
         else
             return Redirect::route('addCall')->withInput()->withErrors($genericCall->errors());
+    }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $call = GenericCall::find($id);
+        return view('generic_call.edit', ['call' => $call]);
     }
 }

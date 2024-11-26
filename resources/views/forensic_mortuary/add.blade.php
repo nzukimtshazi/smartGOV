@@ -207,15 +207,15 @@
                 <div class="user-details" style="display:inline;">
                     <div class="input-box4" style="width:33%;">
                         <span class="details">Name:</span>
-                        <input type="text" name="name">
+                        <input type="text" name="name" required>
                     </div>
                     <div class="input-box4" style="width:33%;">
                         <span class="details">Contact No:</span>
-                        <input type="text" name="contactNo">
+                        <input type="text" name="contactNo" required>
                     </div>
                     <div class="input-box4" style="width:33%;">
                         <span class="details">Mobile No:</span>
-                        <input type="text" name="mobileNo">
+                        <input type="text" name="mobileNo" required>
                     </div>
                 </div>
             </fieldset>
@@ -225,11 +225,11 @@
                 <div class="user-details" style="display:inline;">
                     <div class="input-box4">
                         <span class="details">Name:</span>
-                        <input type="text" name="deceasedName">
+                        <input type="text" name="deceasedName" required>
                     </div>
                     <div class="input-box4">
                         <span class="details">Gender:</span>
-                        <select name="gender" id="gender">
+                        <select name="gender" id="gender" required>
                             <option value="">Please Choose Gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
@@ -237,11 +237,11 @@
                     </div>
                     <div class="input-box4">
                         <span class="details">Age:</span>
-                        <input type="text" name="age">
+                        <input type="text" name="age" required>
                     </div>
                     <div class="input-box4">
                         <span class="details">Ethnic Group:</span>
-                        <select name="ethnic_group" id="ethnic_group">
+                        <select name="ethnic_group" id="ethnic_group" required>
                             <option value="*">Please Choose Ethnic Group</option>
                             <option value="African">African</option>
                             <option value="Coloured">Coloured</option>
@@ -254,7 +254,8 @@
                 <div class="user-details" style="display:inline;">
                     <div class="input-box4">
                         <span class="details">Classification:</span>
-                        <select class="form-control input-sm form-control-sm" name="classification_id" id="classification_id">
+                        <select class="form-control input-sm form-control-sm" name="classification_id"
+                                id="classification_id" required>
                             <option value="">Select Classification</option>
                             @foreach($classifications as $classification)
                             <option value="{{$classification->id}}" @if(old('classification_id')==$classification->id)
@@ -264,11 +265,11 @@
                     </div>
                     <div class="input-box4">
                         <span class="details">SAPS Case No:</span>
-                        <input type="text" name="caseNo">
+                        <input type="text" name="caseNo" required>
                     </div>
                     <div class="input-box4" style="width:50%;">
                         <span class="details">Cause of Death</span>
-                        <input type="text" name="cause_of_death">
+                        <input type="text" name="cause_of_death" required>
                     </div>
                 </div>
             </fieldset>
@@ -278,7 +279,7 @@
                 <div class="user-details" style="display:inline;">
                     <div class="input-box5">
                         <span class="details">District:</span>
-                        <select class="form-control input-sm form-control-sm" name="district_id" id="district_id">
+                        <select class="form-control input-sm form-control-sm" name="district" id="district" required>
                             <option value="">Select District</option>
                             @foreach($districts as $district)
                             <option value="{{$district->id}}" @if(old('district_id')==$district->id)
@@ -288,39 +289,39 @@
                     </div>
                     <div class="input-box5">
                         <span class="details">Place:</span>
-                        <input type="text" name="place">
+                        <input type="text" name="place" required>
                     </div>
                     <div class="input-box5">
                         <span class="details">Area Type:</span>
-                        <input type="text" name="area">
+                        <input type="text" name="area" required>
                     </div>
                     <div class="input-box5">
                         <span class="details">Deceased Pickup Point:</span>
-                        <input type="text" name="deceased_pickUp_point">
+                        <input type="text" name="deceased_pickUp_point" required>
                     </div>
                     <div class="input-box5">
                         <span class="details">Guide Pickup Point:</span>
-                        <input type="text" name="guide_pickUp_point">
+                        <input type="text" name="guide_pickUp_point" required>
                     </div>
                 </div>
                 <div class="user-details" style="display:inline;">
                     <div class="input-box" style="width:100%;">
                         <span class="details">Physical Address:</span>
-                        <input type="text" name="physical_address">
+                        <input type="text" name="physical_address" required>
                     </div>
                 </div>
                 <div class="user-details" style="display:inline;">
                     <div class="input-box4" style="width:33%;">
                         <span class="details">SAPS Name:</span>
-                        <input type="text" name="SAPS_name">
+                        <input type="text" name="SAPS_name" required>
                     </div>
                     <div class="input-box4" style="width:33%;">
                         <span class="details">SAPS Station:</span>
-                        <input type="text" name="station">
+                        <input type="text" name="station" required>
                     </div>
                     <div class="input-box4" style="width:33%;">
                         <span class="details">SAPS Time:</span>
-                        <input type="text" name="SAPS_time">
+                        <input type="text" name="SAPS_time" required>
                     </div>
                 </div>
             </fieldset>
@@ -330,15 +331,15 @@
                 <div class="user-details" style="display:inline;">
                     <div class="input-box4" style="width:33%;">
                         <span class="details">Deceased Delivery Point:</span>
-                        <input type="text" name="delivery_point">
+                        <input type="text" name="delivery_point" required>
                     </div>
                     <div class="input-box4" style="width:33%;">
                         <span class="details">Name of Service Provider:</span>
-                        <input type="text" name="service_provider">
+                        <input type="text" name="service_provider" required>
                     </div>
                     <div class="input-box4" style="width:33%;">
                         <span class="details">Method of Transport:</span>
-                        <input type="text" name="transport_method">
+                        <input type="text" name="transport_method" required>
                     </div>
                 </div>
             </fieldset>
@@ -348,7 +349,7 @@
                 <div class="user-details" style="display:inline;">
                     <div class="input-box4" style="width:33%;">
                         <span class="details">Provider:</span>
-                        <select name="service_provider" id="service_provider">
+                        <select name="service_provider" id="service_provider" required>
                             <option value="*">Please Choose Service Provider</option>
                             <option value="Private EMS">Private EMS</option>
                             <option value="Local">Local</option>
@@ -356,11 +357,11 @@
                     </div>
                     <div class="input-box4" style="width:33%;">
                         <span class="details">Name of Service Provider:</span>
-                        <input type="text" name="provider_name">
+                        <input type="text" name="provider_name" required>
                     </div>
                     <div class="input-box4" style="width:33%;">
                         <span class="details">Contact Person:</span>
-                        <input type="text" name="contactPerson">
+                        <input type="text" name="contactPerson" required>
                     </div>
                 </div>
             </fieldset>
@@ -370,19 +371,19 @@
                 <div class="user-details" style="display:inline;">
                     <div class="input-box4">
                         <span class="details">Fleet No:</span>
-                        <input type="text" name="fleetNo">
+                        <input type="text" name="fleetNo" required>
                     </div>
                     <div class="input-box4">
                         <span class="details">Depot:</span>
-                        <input type="text" name="depot">
+                        <input type="text" name="depot" required>
                     </div>
                     <div class="input-box4">
                         <span class="details">Crew 1:</span>
-                        <input type="text" name="crew1">
+                        <input type="text" name="crew1" required>
                     </div>
                     <div class="input-box4">
                         <span class="details">Crew 2:</span>
-                        <input type="text" name="crew2">
+                        <input type="text" name="crew2" required>
                     </div>
                 </div>
             </fieldset>
@@ -392,7 +393,7 @@
                 <div class="user-details" style="display:inline;">
                     <div class="input-box1">
                         <span class="details">Additional Information:</span>
-                        <textarea id="w3review" name="additional_info"></textarea>
+                        <textarea id="w3review" name="additional_info" required></textarea>
                     </div>
                 </div>
             </fieldset>
@@ -406,10 +407,10 @@
     </div>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
             crossorigin="anonymous"></script>
-    <script src="script.js"></script>
+    <script src="script.js"></script> -->
 </body>
 
 </html>
