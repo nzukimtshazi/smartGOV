@@ -130,18 +130,5 @@
 
 </div>
 
-<script type='text/javascript'>
-    jQuery(document).ready(function() {
-        jQuery('#dataTable').DataTable({
-            dom: 'Bfrtip',
-            buttons: [
-                {extend: 'print', footer: true},
-                {extend: 'excelHtml5', footer: true}
-            ],
-            "aaSorting": [],
-            'iDisplayLength': 100
-        });
-    });
-</script>
 </body>
 </html>

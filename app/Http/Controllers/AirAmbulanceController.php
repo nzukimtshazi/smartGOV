@@ -14,6 +14,7 @@ use App\Models\District;
 use App\Models\Incident;
 use App\Models\Institution;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 
 class AirAmbulanceController extends Controller
@@ -25,7 +26,8 @@ class AirAmbulanceController extends Controller
      */
     public function index()
     {
-        $air_ambulances = AirAmbulance::where('id', '>', 0)->get();
+        $air_ambulances = AirAmbulance::where('id', '>', 0)
+            ->where('status', '!=', 'Logged')->get();
         return view('air_ambulance.index', compact('air_ambulances'));
     }
     /**
@@ -46,22 +48,13 @@ class AirAmbulanceController extends Controller
     // store page 1
     public function storePage(Request $request)
     {
-        //dd($request);
-        $district = District::where('id', '=', $request->district_id)->first();
-        $institution = Institution::where('id', '=', $request->institution_id)->first();
-        session([
-            'name' => $request->name,
-            'telephoneNo' => $request->telephone_no,
-            'mobileNo' => $request->mobile_no,
-            //'district' => $district->name,
-            //'institution' => $institution->name,
-        ]);
-
+        $request->session()->put('data_page_1', $request->all()); // Storing all form data
         return redirect()->route('add2AirAmb');
     }
 
     public function add2(Request $request)
     {
+        $dataFromPage1 = $request->session()->get('data_page_1');
         return view('air_ambulance.add2');
     }
     /**
@@ -72,124 +65,175 @@ class AirAmbulanceController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->all();
-        $air_ambulance = new AirAmbulance($input);
-        $air_ambulance->name = 'Nzuki Mtshazi';  //session(name);
-        $air_ambulance->telephoneNo = '0336541478'; // session('telephoneNo');
-        $air_ambulance->mobileNo = '0719158141'; //session('mobileNo');
-        $air_ambulance->institution_type = 'Hospital';
-        $air_ambulance->aircraft_type = 'Rotor Wing';
-        $air_ambulance->caller_type = 'Hot Response';
-        $air_ambulance->service_provider = 'provider';
-        $air_ambulance->motivation = 'Testing';
-        $air_ambulance->referring_district = 'Ethekwini';
-        $air_ambulance->referring_institution = 'Madadeni';
-        $air_ambulance->referring_ward = 'Emergency Unit';
-        $air_ambulance->referring_doctor = 'Dr Unknown';
-        $air_ambulance->referring_telephoneNo = 'n/a';
-        $air_ambulance->referring_mobileNo = '1236547890';
-        $air_ambulance->receiving_district = 'Ilembe';
-        $air_ambulance->receiving_institution = 'Chisa';
-        $air_ambulance->receiving_ward = 'Emergency Unit';
-        $air_ambulance->receiving_doctor = 'Dr Receiver';
-        $air_ambulance->receiving_telephoneNo = 'n/a';
-        $air_ambulance->receiving_mobileNo = '3698741250';
-        $air_ambulance->patientName = 'Sick Person';
-        $air_ambulance->gender = 'Female';
-        $air_ambulance->age = 42;
-        $air_ambulance->weight = '61kg';
-        $air_ambulance->diagnosis = 'Not yet known';
-        $air_ambulance->hotResponse_district = 'Madadeni';
-        $air_ambulance->weather = 'humid';
-        $air_ambulance->GPS_latitude = '2365.12';
-        $air_ambulance->GPS_longitude = '1235.25';
-        $air_ambulance->pickUp_point = 'Hayfields';
-        $air_ambulance->landing_area = 'Durban';
-        $air_ambulance->landmarks = 'Not much';
-        $air_ambulance->ground_contact = 'n/a';
-        $air_ambulance->marking_devices = '1236547890';
-        $air_ambulance->request_status = 'none';
-        $air_ambulance->updated_by = 'Nzuki';
-        $air_ambulance->time_authorized = '20 minutes';
-        $air_ambulance->reason = 'none';
-        $air_ambulance->standDown_name = 'n/a';
-        $air_ambulance->notification = 'n/a';
-        $air_ambulance->standDown_reason = ('name');
-        $air_ambulance->respiratory = ('esv');
-        $air_ambulance->respiratory_rate = 15;
-        $air_ambulance->airway_methods = 'n/a';
-        $air_ambulance->PEEP = 'n/a';
-        $air_ambulance->interCoastal_drain = 'n/a';
-        $air_ambulance->drug_name = 'Panado';
-        $air_ambulance->dose = '2 tablets';
-        $air_ambulance->fluid_amount_andType = 'n/a';
-        $air_ambulance->druInfuse_rate = 120;
-        $air_ambulance->drug_start = 'n/a';
-        $air_ambulance->drug_stop = 'n/a';
-        $air_ambulance->drug_left = 'none';
-        $air_ambulance->pulse_rate = '15';
-        $air_ambulance->pulse_rhythm = '3';
-        $air_ambulance->blood_pressure = '80/120';
-        $air_ambulance->IVLine_central = 'n/a';
-        $air_ambulance->paceMaker = 'n/a';
-        $air_ambulance->IVLine_peripheral = 'n/a';
-        $air_ambulance->arterial_line = 'n/a';
-        $air_ambulance->glasgow_comaScale = 'n/a';
-        $air_ambulance->eyes = 'ok';
-        $air_ambulance->motor = 'n/a';
-        $air_ambulance->weight = '61kg';
-        $air_ambulance->verbal = 'n/a';
-        $air_ambulance->pupils = 'ok';
-        $air_ambulance->left_pupil = 'black';
-        $air_ambulance->right_pupil = 'blue';
-        $air_ambulance->ph = 'n/a';
-        $air_ambulance->p02 = 'n/a';
-        $air_ambulance->pC02 = 'n/a';
-        $air_ambulance->Hc03 = 'n/a';
-        $air_ambulance->Sa02 = 'n/a';
-        $air_ambulance->Hb = 'n/a';
-        $air_ambulance->WWc = 'n/a';
-        //$air_ambulance->Na+ 'n/a';
-        //$air_ambulance->k+ = 'n/a';
-        $air_ambulance->urea = 'n/a';
-        $air_ambulance->cardiac_enzymes = 'n/a';
-        $air_ambulance->terpinen_T = 'n/a';
-        $air_ambulance->CPK = ('n/a');
-        $air_ambulance->sugar_level = 'n/a';
-        $air_ambulance->ventilator = 'n/a';
-        $air_ambulance->ECG_monitor= 'n/a';;
-        $air_ambulance->capnograph = 'n/a';
-        $air_ambulance->cervical_traction = 'n/a';
-        $air_ambulance->incubator = 'n/a';
-        $air_ambulance->hot_box = 'n/a';
-        $air_ambulance->other = 'none';
-        $air_ambulance->time_mobile = 'n/a';
-        $air_ambulance->ETD = 'n/a';
-        $air_ambulance->arrive_fuel = 'n/a';
-        $air_ambulance->place = 'n/a';
-        $air_ambulance->depart_refuel = 'n/a';
-        $air_ambulance->ETA_toScene = 'n/a';
-        $air_ambulance->person_informed = 'Nzuki';
-        $air_ambulance->depart_scene = 'n/a';
-        $air_ambulance->receiving_doctor = 'Dr Receiver';
-        $air_ambulance->ETA_toDestination = 'n/a';
-        $air_ambulance->arrive_scene = 'n/a';
-        $air_ambulance->depart_destination = 'n/a';
-        $air_ambulance->arrive_destination = 'n/a';
-        $air_ambulance->ETA_toBase = 'n/a';
-        $air_ambulance->arrive_base = 'n/a';
-        $air_ambulance->total_airtime = '180 minutes';
-        $air_ambulance->additional_info = 'Nothing to add';
-        $air_ambulance->reference = 'AA01';
-        $air_ambulance->district_id = 1;
-        $air_ambulance->institution_id = 1;
-        $air_ambulance->user_id = 1;
-        $air_ambulance->caseType_id = 1;
-        $air_ambulance->incident_id = 2;
+        $dataFromPage1 = session()->get('data_page_1');
+        $dataFromPage2 = $request->all(); // Data from Page 2
+        $combinedData = array_merge($dataFromPage1, $dataFromPage2);
+
+        $air_ambulance = new AirAmbulance($combinedData);
+        $air_ambulance->name = $combinedData['fullName'];
+        $air_ambulance->telephoneNo = $combinedData['telephoneNo'];
+        $air_ambulance->mobileNo = $combinedData['mobileNo'];
+        $air_ambulance->institution_type = $combinedData['institution_type'];
+        $air_ambulance->aircraft_type = $combinedData['aircraft_type'];
+        $air_ambulance->caller_type = $combinedData['call_type'];
+        $air_ambulance->service_provider = $combinedData['service_provider'];
+        $air_ambulance->motivation = $combinedData['motivation'];
+        $district = District::find($combinedData['district2']);
+        $air_ambulance->referring_district = $district->name;
+        $institution = Institution::find($combinedData['institution2']);
+        $air_ambulance->referring_institution = $institution->name;
+        $air_ambulance->referring_ward = $combinedData['ward'];
+        $air_ambulance->referring_doctor = $combinedData['doctor'];
+        $air_ambulance->referring_telephoneNo = $combinedData['telephone_no'];
+        $air_ambulance->referring_mobileNo = $combinedData['mobile_no'];
+        $recDistrict = District::find($combinedData['district3']);
+        $air_ambulance->receiving_district = $recDistrict->name;
+        $recInst = Institution::find($combinedData['institution3']);
+        $air_ambulance->receiving_institution = $recInst->name;
+        $air_ambulance->receiving_ward = $combinedData['recWard'];
+        $air_ambulance->receiving_doctor = $combinedData['recDoctor'];
+        $air_ambulance->receiving_telephoneNo = $combinedData['recTelephone_no'];
+        $air_ambulance->receiving_mobileNo = $combinedData['recMobile_no'];
+        $air_ambulance->patientName = $combinedData['patient_name'];
+        $air_ambulance->gender = $combinedData['gender'];
+        $air_ambulance->age = $combinedData['age'];
+        $air_ambulance->weight = $combinedData['weight'];
+        $air_ambulance->diagnosis = $combinedData['diagnosis'];
+        $air_ambulance->hotResponse_district = $combinedData['hotResponse_district'];
+        $air_ambulance->weather = $combinedData['weather'];
+        $air_ambulance->GPS_latitude = $combinedData['gps_latitude'];
+        $air_ambulance->GPS_longitude = $combinedData['gps_longitude'];
+        $air_ambulance->pickUp_point = $combinedData['pickUp_point'];
+        $air_ambulance->landing_area = $combinedData['landing_area'];
+        $air_ambulance->landmarks = $combinedData['landmark'];
+        $air_ambulance->ground_contact = $combinedData['ground_contact'];
+        $air_ambulance->marking_devices = $combinedData['marking_devices'];
+        $air_ambulance->request_status = $combinedData['req_status'];
+        $air_ambulance->updated_by = $combinedData['updated_by'];
+        $air_ambulance->time_authorized = $combinedData['auth_time'];
+        $air_ambulance->reason = $combinedData['auth_reason'];
+        $air_ambulance->standDown_name = $combinedData['down_name'];
+        $air_ambulance->notification = $combinedData['notifications'];
+        $air_ambulance->standDown_reason = $combinedData['reason'];
+        $air_ambulance->respiratory = $combinedData['respiratory'];
+        $air_ambulance->respiratory_rate = $combinedData['r_rate'];
+        $air_ambulance->airway_methods = $combinedData['airway'];
+        $air_ambulance->PEEP = $combinedData['peep'];
+        $air_ambulance->interCoastal_drain = $combinedData['intercoastal'];
+        $air_ambulance->drug_name = $combinedData['d_name'];
+        $air_ambulance->dose = $combinedData['d_dose'];
+        $air_ambulance->fluid_amount_andType = $combinedData['d_fluid_amount'];
+        $air_ambulance->drugInfuse_rate = $combinedData['d_rate'];
+        $air_ambulance->drug_start = $combinedData['d_start'];
+        $air_ambulance->drug_stop = $combinedData['d_stop'];
+        $air_ambulance->drug_left = $combinedData['d_left'];
+        $air_ambulance->pulse_rate = $combinedData['c_rate'];
+        $air_ambulance->pulse_rhythm = $combinedData['rhythm'];
+        $air_ambulance->blood_pressure = $combinedData['c_blood'];
+        $air_ambulance->IVLine_central = $combinedData['c_iv_line_c'];
+        $air_ambulance->paceMaker = $combinedData['pacemaker'];
+        $air_ambulance->IVLine_peripheral = $combinedData['c_iv_line_p'];
+        $air_ambulance->arterial_line = $combinedData['c_arterial'];
+        $air_ambulance->glasgow_comaScale = $combinedData['n_glasgow'];
+        $air_ambulance->eyes = $combinedData['n_eyes'];
+        $air_ambulance->motor = $combinedData['n_motor'];
+        $air_ambulance->verbal = $combinedData['n_vebal'];
+        $air_ambulance->pupils = $combinedData['n_pupils'];
+        $air_ambulance->left_pupil = $combinedData['n_left'];
+        $air_ambulance->right_pupil = $combinedData['n_right'];
+        $air_ambulance->ph = $combinedData['b_ph'];
+        $air_ambulance->p02 = $combinedData['b_p02'];
+        $air_ambulance->pC02 = $combinedData['b_pC02'];
+        $air_ambulance->Hc03 = $combinedData['b_hc03'];
+        $air_ambulance->Sa02 = $combinedData['b_sa03'];
+        $air_ambulance->Hb = $combinedData['b_hb'];
+        $air_ambulance->WWc = $combinedData['b_wwc'];
+        $air_ambulance->Napos = $combinedData['b_na'];
+        $air_ambulance->kpos = $combinedData['b_k'];
+        $air_ambulance->urea = $combinedData['b_urea'];
+        $air_ambulance->cardiac_enzymes = $combinedData['b_cardiac'];
+        $air_ambulance->terpinen_T = $combinedData['b_torpinen'];
+        $air_ambulance->CPK = $combinedData['b_cpk'];
+        $air_ambulance->sugar_level = $combinedData['b_sugar'];
+        $air_ambulance->ventilator = $combinedData['e_ventilator'];
+        $air_ambulance->ECG_monitor= $combinedData['e_monitor'];;
+        $air_ambulance->capnograph = $combinedData['e_capnograph'];
+        $air_ambulance->cervical_traction = $combinedData['e_cervical'];
+        $air_ambulance->incubator = $combinedData['e_incubator'];
+        $air_ambulance->hot_box = $combinedData['e_hot_box'];
+        $air_ambulance->other = $combinedData['e_other'];
+        $air_ambulance->time_mobile = $combinedData['m_time'];
+        $air_ambulance->ETD = $combinedData['m_etd'];
+        $air_ambulance->arrive_refuel = $combinedData['m_a_refuel'];
+        $air_ambulance->place = $combinedData['m_place'];
+        $air_ambulance->depart_refuel = $combinedData['m_d_refuel'];
+        $air_ambulance->ETA_toScene = $combinedData['m_eta_s'];
+        $air_ambulance->arrive_scene = $combinedData['m_a_scene'];
+        $air_ambulance->scenePerson_informed = $combinedData['scenePerson_informed'];
+        $air_ambulance->depart_scene = $combinedData['m_a_scene'];
+        $air_ambulance->depart_destination = $combinedData['m_d_scene'];
+        $air_ambulance->ETA_toDestination = $combinedData['m_eta_d'];
+        $air_ambulance->arrive_destination = $combinedData['m_a_destination'];
+        $air_ambulance->destPerson_informed = $combinedData['destPerson_informed2'];
+        $air_ambulance->depart_destination = $combinedData['m_depart_d'];
+        $air_ambulance->ETA_toBase = $combinedData['m_eta_base'];
+        $air_ambulance->arrive_base = $combinedData['m_a_base'];
+        $air_ambulance->total_airtime = $combinedData['total_airtime'];
+        $air_ambulance->additional_info = $combinedData['additional_info'];
+        $air_ambulance->status = 'Logged';
+        $air_ambulance->reference = 'AA-' . time() . '-' . rand(0, 00);
+        $air_ambulance->district_id = $combinedData['district'];
+        $air_ambulance->institution_id = $combinedData['institution'];
+        $user = Auth::user();
+        $air_ambulance->user_id = $user->getAuthIdentifier();
+        $air_ambulance->caseType_id = $combinedData['caseType_id'];
+        $air_ambulance->incident_id =$combinedData['incident_id'];
 
         if ($air_ambulance->save())
             return Redirect::route('air_ambulance')->with('success', 'Successfully requested an air ambulance!');
         else
             return Redirect::route('addAirAm')->withInput()->withErrors($air_ambulance->errors());
+    }
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $air_ambulance = AirAmbulance::find($id);
+        return view('air_ambulance.edit', ['air_ambulance' => $air_ambulance]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $action = $request->input('action');
+        $air_ambulance = AirAmbulance::find($id);
+
+        if($action == 'approve')
+            $air_ambulance->status = 'Approved';
+        else
+            $air_ambulance->status = 'Declined';
+
+        if ($air_ambulance->update())
+            return Redirect::route('air_ambulance')->with('success', 'Successfully approve/declined air ambulance!');
+        else
+            return Redirect::route('air_ambulance.edit', [$id])->withInput()->withErrors($air_ambulance->errors());
+    }
+
+    public function approve()
+    {
+        $air_ambulances = AirAmbulance::where('id', '>', 0)
+            ->where('status', '=', 'Logged')->get();
+
+        return view('air_ambulance.approve', compact('air_ambulances'));
     }
 }

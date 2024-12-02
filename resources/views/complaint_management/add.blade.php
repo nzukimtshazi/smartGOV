@@ -208,7 +208,7 @@
                         <span class="details">e-Mail Address:</span>
                         <input type="text" name="email" required>
                     </div>
-                </div>
+                </div> <br>
                 <div class="user-details" style="display:inline;">
                     <div class="input-box4">
                         <span class="details">Caller Type:</span>
@@ -229,6 +229,36 @@
                     <div class="input-box4">
                         <span class="details">Location:</span>
                         <input type="text" name="location" required>
+                    </div>
+                </div> <br>
+                <div class="user-details" style="display:inline;">
+                    <div class="input-box4" style="width:33%;">
+                        <span class="details">District:</span>
+                        <select class="form-control input-sm form-control-sm" name="district" id="district" required>
+                            <option value="">Select District</option>
+                            @foreach($districts as $district)
+                                <option value="{{$district->id}}" @if(old('district_id')==$district->id)
+                                selected="selected"@endif>{{$district->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="input-box4" style="width:33%;">
+                        <span class="details">Institution:</span>
+                        <select class="form-control input-sm form-control-sm" name="institution" id="institution" required>
+                            <option value="">Select Institution</option>
+                            @foreach($institutions as $institution)
+                                <option value="{{$institution->id}}" @if(old('institution_id')==$institution->id)
+                                selected="selected"@endif>{{$institution->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="input-box4">
+                        <span class="details">Type of Institution:</span>
+                        <select name="institution_type" id="institution_type" required>
+                            <option value="*">Select Institution Type</option>
+                            <option value="Hospital">Hospital</option>
+                            <option value="Clinic">Clinic</option>
+                        </select>
                     </div>
                 </div>
             </fieldset>
@@ -252,12 +282,30 @@
                     </div>
                     <div class="input-box4" style="width:33%;">
                         <span class="details">District of Incident:</span>
-                        <select class="form-control input-sm form-control-sm" name="district_id" id="district_id" required>
+                        <select class="form-control input-sm form-control-sm" name="district2" id="district2" required>
                             <option value="">Select District</option>
                             @foreach($districts as $district)
                                 <option value="{{$district->id}}" @if(old('district_id')==$district->id)
                                 selected="selected"@endif>{{$district->name}}</option>
                             @endforeach
+                        </select>
+                    </div>
+                    <div class="input-box4" style="width:33%;">
+                        <span class="details">Institution:</span>
+                        <select class="form-control input-sm form-control-sm" name="institution2" id="institution2" required>
+                            <option value="">Select Hospital or Clinic</option>
+                            @foreach($institutions as $institution)
+                                <option value="{{$institution->id}}" @if(old('institution_id')==$institution->id)
+                                selected="selected"@endif>{{$institution->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="input-box4">
+                        <span class="details">Type of Institution:</span>
+                        <select name="com_institution_type" id="com_institution_type" required>
+                            <option value="*">Select Institution Type</option>
+                            <option value="Hospital">Hospital</option>
+                            <option value="Clinic">Clinic</option>
                         </select>
                     </div>
                 </div>
@@ -278,6 +326,48 @@
         {!! Form::close() !!}
     </div>
 
+    <script>
+        $(document).ready(function() {
+            // On district change, make an AJAX request to get the institutions
+            $('#district').change(function() {
+                var districtId = $(this).val();
+                if (districtId) {
+                    $.ajax({
+                        url: '/smartGOV/public/get-institutions/' + districtId,
+                        type: 'GET',
+                        success: function(data) {
+                            $('#institution').html('<option value="">Select Institution</option>'); // Clear current options
+                            $.each(data, function(key, value) {
+                                $('#institution').append('<option value="'+value.id+'">'+value.name+'</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#institution').html('<option value="">Select Institution</option>');
+                }
+            });
+        });
+        $(document).ready(function() {
+            // On district change, make an AJAX request to get the institutions
+            $('#district2').change(function() {
+                var districtId = $(this).val();
+                if (districtId) {
+                    $.ajax({
+                        url: '/smartGOV/public/get-institutions/' + districtId,
+                        type: 'GET',
+                        success: function(data) {
+                            $('#institution2').html('<option value="">Select Institution</option>'); // Clear current options
+                            $.each(data, function(key, value) {
+                                $('#institution2').append('<option value="'+value.id+'">'+value.name+'</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#institution2').html('<option value="">Select Institution</option>');
+                }
+            });
+        });
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"

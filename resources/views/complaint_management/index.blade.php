@@ -13,7 +13,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="btn-group mr-2 mb-sm-0 float-sm-right mt-1">
-                            <a href="ccomplaint_management/add" role="button"
+                            <a href="complaint_management/add" role="button"
                                class="btn btn-sm btn-outline-info waves-light waves-effect"><i
                                         class="ri-add-circle-line align-middle mr-2"></i>Log a Complaint</a>
                         </div>
@@ -89,6 +89,14 @@
                                             $district = \App\Models\District::find($complaint->district_id);
                                             ?>
                                             <div>{{ $district->name }}</div>
+                                        </td>
+
+                                        <!-- District -->
+                                        <td class="table-text">
+                                            <?php
+                                            $institution = \App\Models\Institution::find($complaint->institution_id);
+                                            ?>
+                                            <div>{{ $institution->name }}</div>
                                         </td>
 
                                         <!-- Feedback -->

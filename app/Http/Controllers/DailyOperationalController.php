@@ -12,7 +12,6 @@ use App\Models\Ambulance;
 use App\Models\DailyOperational;
 use App\Models\DailyOperationalStatus;
 use App\Models\District;
-use App\Models\Institution;
 use App\Models\OperationalSupport;
 use App\Models\Overtime;
 use App\Models\PtsBus;
@@ -30,7 +29,42 @@ class DailyOperationalController extends Controller
      */
     public function index()
     {
-        //
+        $daily_operation = DailyOperationalStatus::where('id', '>', 0)->get();
+
+        $operational_statuses = array();
+        foreach ($daily_operation as $operation) {
+            $operational_status = new OperationalStatus();
+            $operational_status->statusId = $operation->id;
+            $operational_status->dateCreated = $operation->operational_date;
+            $operational_status->shift = $operation->shift;
+            $operational_status->caller = $operation->caller;
+
+            $emergencies = Ambulance::where('name', 'like', '%' . strtolower('rational - Emer') . '%')
+                ->where('reference', '=', $operation->reference)->count();
+            $operational_status->emergency = $emergencies;
+
+            $obstetric = Ambulance::where('name', 'like', '%' . strtolower('rational - Obst') . '%')
+                ->where('reference', '=', $operation->reference)->count();
+            $operational_status->obstetric = $obstetric;
+
+            $buses = PtsBus::where('name', 'like', '%' . strtolower('rational - Bus') . '%')
+                ->where('reference', '=', $operation->reference)->count();
+            $operational_status->operational = $buses;
+
+            $disaster = OperationalSupport::where('name', 'like', '%' . strtolower('saster - Ope') . '%')
+                ->where('reference', '=', $operation->reference)->count();
+            $operational_status->disaster = $disaster;
+
+            $leave = StaffLeave::where('reference', '=', $operation->reference)->count();
+            $operational_status->staff = $leave;
+
+            $overtime = Overtime::where('reference', '=', $operation->reference)->count();
+            $operational_status->overtime = $overtime;
+
+            array_push($operational_statuses, $operational_status);
+        }
+
+        return view('daily_operational.index', compact('operational_statuses'));
     }
     /**
      * Show the form for creating a new resource.
@@ -117,7 +151,6 @@ class DailyOperationalController extends Controller
                             $overtime->save();
                             break;
                         default:
-                            // Code to be executed if no case matches
                             break;
                     }
                 }
@@ -127,4 +160,16 @@ class DailyOperationalController extends Controller
         } else
             return Redirect::route('createDOS')->withInput()->withErrors($daily_operational->errors());
     }
+}
+class OperationalStatus {
+    public $statusId;
+    public $dateCreated;
+    public $shift;
+    public $caller;
+    public $emergency;
+    public $obstetric;
+    public $operational;
+    public $disaster;
+    public $staff;
+    public $overtime;
 }

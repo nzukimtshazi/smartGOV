@@ -45,7 +45,7 @@
         border-size: 13px;">Add Account Details</button>
             </aside>
 
-            <form action="{{ route('storeUser') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('sendOTP') }}" method="POST" enctype="multipart/form-data">
             @csrf
                 <div class="main p-3">
                     <div class="row">
@@ -64,7 +64,7 @@
                         <div class="column">
                             <div class="card">
                                 <label style="float:left;">Contact No:<span style="color:red;">*</span></label>
-                                <input type="text" placeholder="+27 76 531 9631" name="number" required>
+                                <input type="text" placeholder="+27 76 531 9631" name="mobile_number" required>
                             </div>
                         </div>
                         <div class="column">

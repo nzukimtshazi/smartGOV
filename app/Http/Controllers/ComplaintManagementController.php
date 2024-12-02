@@ -12,6 +12,7 @@ use App\Models\Complaint;
 use App\Models\ComplaintManagement;
 use App\Models\District;
 use App\Models\Institution;
+use App\Models\InstitutionDailyStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -36,9 +37,10 @@ class ComplaintManagementController extends Controller
     public function add()
     {
         $districts = District::where('id', '>', 0)->get();
+        $institutions = Institution::where('id', '>', 0)->get();
         $complaint_types = Complaint::where('id', '>', 0)->get();
 
-        return view('complaint_management.add', compact('districts', 'complaint_types'));
+        return view('complaint_management.add', compact('districts', 'institutions', 'complaint_types'));
     }
     /**
      * Store a newly created resource in storage.
@@ -55,13 +57,20 @@ class ComplaintManagementController extends Controller
         $complaint_management->mobileNo = $request->mobileNo;
         $complaint_management->email = $request->email;
         $complaint_management->caller_type = $request->caller_type;
+        $complaint_management->institution_type = $request->institution_type;
         $complaint_management->company = $request->company;
         $complaint_management->contact_person = $request->contact_person;
         $complaint_management->location = $request->location;
         $complaint_management->location_ofIncident = $request->location_ofIncident;
+        $district = District::find($request->district2);
+        $complaint_management->district_name = $district->name;
+        $institution = Institution::find($request->institution2);
+        $complaint_management->institution_name = $institution->name;
+        $complaint_management->complaint_institution_type = $request->com_institution_type;
         $complaint_management->additional_info = $request->additional_info;
         $complaint_management->reference = 'CM-' . time() . '-' . rand(0, 00);
-        $complaint_management->district_id = $request->district_id;
+        $complaint_management->district_id = $request->district;
+        $complaint_management->institution_id = $request->institution;
         $user = Auth::user();
         $complaint_management->user_id = $user->getAuthIdentifier();
         $complaint_management->complaints_id = $request->type_id;

@@ -238,10 +238,14 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="input-box5">
-                            <span class="details">Name:</span>
-                            <select id="institution" name="institution" required>
-                                <option value="">Select Institution</option>
+                        <div class="input-box4">
+                            <span class="details">Institution:</span>
+                            <select class="form-control input-sm form-control-sm" name="institution" id="institution" required>
+                                <option value="">Select Hospital or Clinic</option>
+                                @foreach($institutions as $institution)
+                                <option value="{{$institution->id}}" @if(old('institution_id')==$institution->id)
+                                selected="selected"@endif>{{$institution->name}}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div class="input-box5">
@@ -263,7 +267,41 @@
                     </div>
                 </fieldset>
 
-                <h2 style="color:red; margin:30px;"> In Progress...</h2>
+                <!-- ============================================ Daily Statistics ========================================= -->
+                <fieldset class="fieldset" style="display:inline;">
+                    <legend class="legend">Daily Statistics</legend>
+                    <div class="user-details" style="display:inline;">
+                        <div class="input-box5">
+                            <span class="details">No of Admissions:</span>
+                            <input type="number" name="admissions" required>
+                        </div>
+                        <div class="input-box5">
+                            <span class="details">Additional Admission's Information:</span>
+                            <input type="text" name="admission_info" required>
+                        </div>
+                    </div>
+                    <div class="user-details" style="display:inline;">
+                        <div class="input-box5">
+                            <span class="details">No of Deaths:</span>
+                            <input type="number" name="death_count" required>
+                        </div>
+                        <div class="input-box5">
+                            <span class="details">Cause of Deaths:</span>
+                            <input type="text" name="cause_of_death" required>
+                        </div>
+                    </div>
+                    <div class="user-details" style="display:inline;">
+                        <div class="input-box5">
+                            <span class="details">No of Births:</span>
+                            <input type="number" name="birth_count" required>
+                        </div>
+                        <div class="input-box5">
+                            <span class="details">Additional Birth's information:</span>
+                            <input type="text" name="birth_info" required>
+                        </div>
+                    </div>
+                </fieldset>
+
                 <fieldset>
                     <legend class="legend">Beds Occupancy</legend>
                     <div id="departmentRows">

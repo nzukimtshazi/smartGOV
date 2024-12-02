@@ -204,8 +204,7 @@
             <!-- ========================================== Caller Information =========================================== -->
             <fieldset class="fieldset" style="display:inline;">
                 <legend class="legend">Caller Information</legend>
-                <div class="user-details" style="display:inline;"> -->
-
+                <div class="user-details" style="display:inline;">
                     <div class="input-box6">
                         <span class="details">Name:</span>
                         <input type="text" name="fullName" required>
@@ -220,7 +219,7 @@
                     </div>
                     <div class="input-box6">
                         <span class="details">District:</span>
-                        <select class="form-control input-sm form-control-sm" name="district_id" id="district_id">
+                        <select class="form-control input-sm form-control-sm" name="district" id="district">
                             <option value="">Select District</option>
                             @foreach($districts as $district)
                                 <option value="{{$district->id}}" @if(old('district_id')==$district->id)
@@ -230,7 +229,7 @@
                     </div>
                     <div class="input-box6">
                         <span class="details">Institution:</span>
-                        <select class="form-control input-sm form-control-sm" name="institution_id" id="institution_id">
+                        <select class="form-control input-sm form-control-sm" name="institution" id="institution">
                             <option value="">Select Institution</option>
                             @foreach($institutions as $institution)
                                 <option value="{{$institution->id}}" @if(old('institution_id')==$institution->id)
@@ -240,7 +239,11 @@
                     </div>
                     <div class="input-box6">
                         <span class="details">Institution Type:</span>
-                        <input type="text" name="institution_type">
+                        <select name="institution_type" id="institution_type" required>
+                            <option value="*">Choose Institution Type</option>
+                            <option value="Hospital">Hospital</option>
+                            <option value="Clinic">Clinic</option>
+                        </select>
                     </div>
                 </div>
             </fieldset>
@@ -250,7 +253,7 @@
                 <div class="user-details" style="display:inline;">
                     <div class="input-box4">
                         <span class="details">Aircraft Type:</span>
-                        <select name="aircraft_type" id="aircraft">
+                        <select name="aircraft_type" id="aircraft_type">
                             <option value="*">Select Aircraft</option>
                             <option value="Rotor Wing">Rotor Wing</option>
                             <option value="Fixed Wing">Fixed Wing</option>
@@ -281,8 +284,8 @@
                 </div>
                 <div class="user-details" style="display:inline;">
                     <div class="input-box1">
-                        <span class="details">Service Provider:</span>
-                        <textarea id="w3review" name="w3review"></textarea>
+                        <span class="details">Motivation:</span>
+                        <textarea id="motivation" name="motivation"></textarea>
                     </div>
                 </div>
             </fieldset>
@@ -292,17 +295,17 @@
                 <div class="user-details" style="display:inline;">
                     <div class="input-box6">
                         <span class="details">District:</span>
-                        <select class="form-control input-sm form-control-sm" name="district_id" id="district_id">
+                        <select class="form-control input-sm form-control-sm" name="district2" id="district2">
                             <option value="">Select the Referring District</option>
                             @foreach($districts as $district)
-                                <option value="{{$district->id}}" @if(old('district_id')==$district->id)
-                                selected="selected"@endif>{{$district->name}}</option>
+                            <option value="{{$district->id}}" @if(old('district_id')==$district->id)
+                            selected="selected"@endif>{{$district->name}}</option>
                             @endforeach
                         </select>
                     </div>
                     <div class="input-box6">
                         <span class="details">Institution:</span>
-                        <select class="form-control input-sm form-control-sm" name="institution_id" id="institution_id">
+                        <select class="form-control input-sm form-control-sm" name="institution2" id="institution2">
                             <option value="">Select the Referring Institution</option>
                             @foreach($institutions as $institution)
                                 <option value="{{$institution->id}}" @if(old('institution_id')==$institution->id)
@@ -334,7 +337,7 @@
                 <div class="user-details" style="display:inline;">
                     <div class="input-box6">
                         <span class="details">District:</span>
-                        <select class="form-control input-sm form-control-sm" name="district_id" id="district_id">
+                        <select class="form-control input-sm form-control-sm" name="district3" id="district3">
                             <option value="">Select the Receiving District</option>
                             @foreach($districts as $district)
                                 <option value="{{$district->id}}" @if(old('district_id')==$district->id)
@@ -344,7 +347,7 @@
                     </div>
                     <div class="input-box6">
                         <span class="details">Institution:</span>
-                        <select class="form-control input-sm form-control-sm" name="institution_id" id="institution_id">
+                        <select class="form-control input-sm form-control-sm" name="institution3" id="institution3">
                             <option value="">Select the Receiving Institution</option>
                             @foreach($institutions as $institution)
                                 <option value="{{$institution->id}}" @if(old('institution_id')==$institution->id)
@@ -354,19 +357,19 @@
                     </div>
                     <div class="input-box6">
                         <span class="details">Ward:</span>
-                        <input type="text" name="mobile_no">
+                        <input type="text" name="recWard">
                     </div>
                     <div class="input-box6">
                         <span class="details">Doctor:</span>
-                        <input type="text" name="district">
+                        <input type="text" name="recDoctor">
                     </div>
                     <div class="input-box6">
                         <span class="details">Telephone No:</span>
-                        <input type="text" name="institution">
+                        <input type="text" name="recTelephone_no">
                     </div>
                     <div class="input-box6">
                         <span class="details">Mobile No:</span>
-                        <input type="text" name="institution_type">
+                        <input type="text" name="recMobile_no">
                     </div>
                 </div>
             </fieldset>
@@ -376,27 +379,27 @@
                 <div class="user-details" style="display:inline;">
                     <div class="input-box6">
                         <span class="details">Patient Name:</span>
-                        <input type="text" name="p_name">
+                        <input type="text" name="patient_name">
                     </div>
                     <div class="input-box6">
                         <span class="details">Gender:</span>
-                        <select name="gender" id="cars">
+                        <select name="gender" id="gender">
                             <option value="*">Please choose gender</option>
-                            <option value="volvo">Male</option>
-                            <option value="mercedes">Female</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
                         </select>
                     </div>
                     <div class="input-box6">
                         <span class="details">Age:</span>
-                        <input type="number" name="p_age">
+                        <input type="number" name="age">
                     </div>
                     <div class="input-box6">
                         <span class="details">Weight (kg):</span>
-                        <input type="text" name="p_weight">
+                        <input type="text" name="weight">
                     </div>
                     <div class="input-box6">
                         <span class="details">Diagnosis:</span>
-                        <input type="text" name="p_diagnosis">
+                        <input type="text" name="diagnosis">
                     </div>
                     <div class="input-box6">
                         <span class="details">Case Type:</span>
@@ -416,41 +419,41 @@
                 <div class="user-details" style="display:inline;">
                     <div class="input-box5">
                         <span class="details">District:</span>
-                        <input type="text" name="h_district">
+                        <input type="text" name="hotResponse_district">
                     </div>
                     <div class="input-box5">
                         <span class="details">Weather:</span>
-                        <input type="text" name="h_weather">
+                        <input type="text" name="weather">
                     </div>
                     <div class="input-box5">
                         <span class="details">GPS (Latitude):</span>
-                        <input type="number" name="h_gps">
+                        <input type="text" name="gps_latitude">
                     </div>
                     <div class="input-box5">
                         <span class="details">GPS (Longitude):</span>
-                        <input type="text" name="h_gps_long">
+                        <input type="text" name="gps_longitude">
                     </div>
                     <div class="input-box5">
                         <span class="details">Pick Up Point:</span>
-                        <input type="text" name="h_pick_up">
+                        <input type="text" name="pickUp_point">
                     </div>
                 </div>
                 <div class="user-details" style="display:inline;">
                     <div class="input-box5">
                         <span class="details">Landing Area:</span>
-                        <input type="text" name="h_landing_area">
+                        <input type="text" name="landing_area">
                     </div>
                     <div class="input-box5">
                         <span class="details">Landmark:</span>
-                        <input type="text" name="h_landmark">
+                        <input type="text" name="landmark">
                     </div>
                     <div class="input-box5">
                         <span class="details">Ground Contact:</span>
-                        <input type="number" name="h_g_contact">
+                        <input type="text" name="ground_contact">
                     </div>
                     <div class="input-box5" style="width:40%;">
                         <span class="details">Marking Devices:</span>
-                        <input type="text" name="h_m_devices">
+                        <input type="text" name="marking_devices">
                     </div>
                 </div>
             </fieldset>
@@ -460,22 +463,22 @@
                 <div class="user-details" style="display:inline;">
                     <div class="input-box5">
                         <span class="details">Request Status:</span>
-                        <select name="incident" id="p_case_type">
-                            <option value="volvo">Value</option>
-                            <option value="mercedes">Value</option>
+                        <select name="req_status" id="req_status">
+                            <option value="Status1">Status1</option>
+                            <option value="Status2">Status2</option>
                         </select>
                     </div>
                     <div class="input-box5">
                         <span class="details">Updated By:</span>
-                        <input type="text" name="a_updated_by">
+                        <input type="text" name="updated_by">
                     </div>
                     <div class="input-box5">
                         <span class="details">Time:</span>
-                        <input type="time" name="a_time">
+                        <input type="time" name="auth_time">
                     </div>
                     <div class="input-box5" style="width:40%;">
                         <span class="details">Reason:</span>
-                        <input type="text" name="a_reason">
+                        <input type="text" name="auth_reason">
                     </div>
                 </div>
             </fieldset>
@@ -485,18 +488,18 @@
                 <div class="user-details" style="display:inline;">
                     <div class="input-box5">
                         <span class="details">Name:</span>
-                        <input type="text" name="s_name">
+                        <input type="text" name="down_name">
                     </div>
                     <div class="input-box5">
                         <span class="details">Notification:</span>
-                        <select name="s_notification" id="p_case_type">
-                            <option value="volvo">Value</option>
-                            <option value="mercedes">Value</option>
+                        <select name="notifications" id="notifications">
+                            <option value="Notification1">Notification1</option>
+                            <option value="Notification2">Notification2</option>
                         </select>
                     </div>
                     <div class="input-box5" style="width:60%;">
                         <span class="details">Reason:</span>
-                        <input type="text" name="a_reason">
+                        <input type="text" name="reason">
                     </div>
                 </div>
             </fieldset>
@@ -506,11 +509,73 @@
         <button type="submit">Next</button>
         {!! Form::close() !!}
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+    <!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
             crossorigin="anonymous"></script>
-    <script src="script.js"></script>
+    <script src="script.js"></script> -->
 </form>
+<script>
+    $(document).ready(function() {
+        // On district change, make an AJAX request to get the institutions
+        $('#district').change(function() {
+            var districtId = $(this).val();
+            if (districtId) {
+                $.ajax({
+                    url: '/smartGOV/public/get-institutions/' + districtId,
+                    type: 'GET',
+                    success: function(data) {
+                        $('#institution').html('<option value="">Select Institution</option>'); // Clear current options
+                        $.each(data, function(key, value) {
+                            $('#institution').append('<option value="'+value.id+'">'+value.name+'</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#institution').html('<option value="">Select Institution</option>');
+            }
+        });
+    });
+    $(document).ready(function() {
+        // On district change, make an AJAX request to get the institutions
+        $('#district2').change(function() {
+            var districtId = $(this).val();
+            if (districtId) {
+                $.ajax({
+                    url: '/smartGOV/public/get-institutions/' + districtId,
+                    type: 'GET',
+                    success: function(data) {
+                        $('#institution2').html('<option value="">Select Institution</option>'); // Clear current options
+                        $.each(data, function(key, value) {
+                            $('#institution2').append('<option value="'+value.id+'">'+value.name+'</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#institution2').html('<option value="">Select Institution</option>');
+            }
+        });
+    });
+    $(document).ready(function() {
+        // On district change, make an AJAX request to get the institutions
+        $('#district3').change(function() {
+            var districtId = $(this).val();
+            if (districtId) {
+                $.ajax({
+                    url: '/smartGOV/public/get-institutions/' + districtId,
+                    type: 'GET',
+                    success: function(data) {
+                        $('#institution3').html('<option value="">Select Institution</option>'); // Clear current options
+                        $.each(data, function(key, value) {
+                            $('#institution3').append('<option value="'+value.id+'">'+value.name+'</option>');
+                        });
+                    }
+                });
+            } else {
+                $('#institution3').html('<option value="">Select Institution</option>');
+            }
+        });
+    });
+</script>
 </body>
 
 </html>

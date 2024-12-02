@@ -8,81 +8,33 @@
 
 namespace App\Http\Controllers;
 
-use Twilio\Rest\Client;
+use App\Services\OtpService;
+use Illuminate\Http\Request;
 
 class OTPController extends Controller
 {
-    public function generateOTP($length = 6)
+    protected $OtpService;
+
+    public function __construct(OtpService $OtpService)
     {
-        $otp = '';
-        $characters = '0123456789';
-        $charactersLength = strlen($characters);
-        for ($i = 0; $i < $length; $i++) {
-            $otp .= $characters[rand(0, $charactersLength - 1)];
-        }
-        return $otp;
+        $this->OtpService = $OtpService;
     }
 
-    public function sendOtpToMobile($mobileNumber)
+    public function sendOtp(Request $request)
     {
-        $otp = $this->generateOTP(); // Generate OTP
-
-        // Twilio credentials from the config
-        $sid = config('services.twilio.sid');
-        $authToken = config('services.twilio.auth_token');
-        $twilioPhoneNumber = config('services.twilio.phone_number');
-
-        $client = new Client($sid, $authToken);
-        $mobileNo = preg_replace('/^0/', '+27', $mobileNumber);
-        $fromNo = preg_replace('/^0/', '+27', $twilioPhoneNumber);
-
-        try {
-            // Send SMS using Twilio API
-            $message = $client->messages->create(
-                $mobileNo, // The recipient's phone number
-                [
-                    'from' => $fromNo, // Your Twilio phone number
-                    'body' => 'Your OTP is: ' . $otp, // Message content
-                ]
-            );
-
-            // Optionally, save the OTP to the database, associated with the user's phone number for verification later.
-            return $otp; // You can store this OTP for later comparison
-        } catch (\Exception $e) {
-            // Handle errors, such as invalid phone numbers or API issues
-            return response()->json(['error' => 'Failed to send OTP: ' . $e->getMessage()]);
-        }
-    }
-
-    public function verifyOtp(Request $request)
-    {
-        $request->validate([
-            'phone_number' => 'required',
-            'otp' => 'required|numeric',
+        $this->validate($request, [
+            'mobile_number' => 'required|regex:/^[0-9]{10}$/', // Validate phone number
         ]);
 
-        // Fetch OTP from database
-        $otpRecord = Otp::where('phone_number', $request->phone_number)
-            ->where('otp', $request->otp)
-            ->where('expires_at', '>', now()) // Ensure OTP has not expired
-            ->first();
+        $otp = rand(100000, 999999); // Generate a 6-digit OTP
+        $phoneNumber = $request->input('mobile_number');
 
-        if ($otpRecord) {
-            // OTP is valid
-            return response()->json(['message' => 'OTP verified successfully']);
-        } else {
-            // OTP is invalid or expire
-            return response()->json(['error' => 'Invalid or expired OTP'], 400);
+        // Send OTP via SMS
+        if ($this->OtpService->sendOtp($phoneNumber, $otp)) {
+            dd('Inside if statement');
+            return response()->json(['success' => true, 'otp' => $otp], 200); // In a real-world scenario, you wouldn't send the OTP back in the response.
         }
-    }
 
-    public function storeOtp($phoneNumber, $otp)
-    {
-        // Store OTP with expiration time (e.g., 10 minutes)
-        Otp::create([
-            'phone_number' => $phoneNumber,
-            'otp' => $otp,
-            'expires_at' => now()->addMinutes(10),
-        ]);
+        return response()->json(['success' => false, 'message' => 'Failed to send OTP'], 400);
     }
 }
