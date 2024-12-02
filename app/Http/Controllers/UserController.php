@@ -8,7 +8,10 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
 
@@ -63,7 +66,20 @@ class UserController extends Controller
             return Redirect::route('addUser')->withInput()->with('danger', 'User with email "' . $request->email . '" already exists!');
         }
 
-        //return Redirect::route('sendOtp', [$request->number]);
+        $data = [
+            'phone_number' => $request->mobile_number
+        ];
+
+        $response = Http::post(route('sendOTP'), $data);
+
+        if ($response->successful()) {
+            // OTP sent successfully, now you can proceed with sending the OTP to the user.
+            return response()->json(['message' => 'OTP sent successfully, please verify it.']);
+        } else {
+            // Handle failure
+            return response()->json(['message' => 'Failed to send OTP.'], 500);
+        }
+
 
         $district = District::find($request->district);
         $institution = Institution::find($request->institution);
@@ -77,7 +93,7 @@ class UserController extends Controller
         $user = User::create([
             'firstName' => $request->fname,
             'lastName' => $request->lname,
-            'contactNo' => $request->number,
+            'contactNo' => $request->mobile_number,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'userName' => $request->userName,
@@ -102,15 +118,32 @@ class UserController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function edit()
+    {
+        $users = User::where('id', '>', 0)->get();
+        $userCount = $users->count();
+
+        $user =User::select('user_role', DB::raw('count(*) as count'))
+            ->groupBy('user_role')
+            ->get();
+
+        return view('user.editor', compact('users', 'userCount', 'user'));
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function view($id)
     {
         $user = User::where('id', '=', $id)->first();
-        return view('user.edit', compact('user'));
+        return response()->json(['data' => $user]);
     }
 
     /**

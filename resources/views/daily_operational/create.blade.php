@@ -238,10 +238,7 @@
                                     <th>Total</th>
                                 </tr>
                                 <tr>
-                                    <?php
-                                        $name = 'AMBULANCES';
-                                    ?>
-                                    <td>{{ $name }}</td>
+                                    <td>AMBULANCES</td>
                                 </tr>
                             </thead>
 

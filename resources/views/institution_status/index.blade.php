@@ -105,7 +105,11 @@
 
                                         <!-- Beds Occupancy -->
                                         <td class="table-text">
-                                            <div>{{ '70%' }}</div>
+                                            <?php
+                                                $department = \App\Models\Department::find($status->institution_id);
+                                                $rate = round($department->beds_occupied / $department->no_of_beds * 100.2);
+                                            ?>
+                                            <div>{{ $rate }}</div>
                                         </td>
 
                                         <!-- Feedback -->
@@ -125,6 +129,5 @@
             </div>
         </div>
     </div>
-
 @endsection
 

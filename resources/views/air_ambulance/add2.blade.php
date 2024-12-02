@@ -321,15 +321,11 @@ if(isset($_POST['btn_capture'])) {
                     </div>
                     <div class="input-box7">
                         <span class="details">Left:</span>
-                        <input type="text" name="left">
+                        <input type="text" name="n_left">
                     </div>
                     <div class="input-box7">
                         <span class="details">Right:</span>
-                        <select name="n_right" id="cars">
-                            <option value="volvo">Value</option>
-                            <option value="mercedes">Value</option>
-                            <option value="audi">Value</option>
-                        </select>
+                        <input type="text" name="n_right">
                     </div>
                 </div>
             </fieldset>
@@ -469,7 +465,7 @@ if(isset($_POST['btn_capture'])) {
                     </div>
                     <div class="input-box4">
                         <span class="details">Person Informed:</span>
-                        <input type="text" name="m_place">
+                        <input type="text" name="scenePerson_informed">
                     </div>
                 </div>
                 <div class="user-details" style="display:inline;">
@@ -487,7 +483,7 @@ if(isset($_POST['btn_capture'])) {
                     </div>
                     <div class="input-box4">
                         <span class="details">Person Informed:</span>
-                        <input type="text" name="m_place">
+                        <input type="text" name="destPerson_informed2">
                     </div>
                 </div>
                 <div class="user-details" style="display:inline;">
@@ -505,7 +501,7 @@ if(isset($_POST['btn_capture'])) {
                     </div>
                     <div class="input-box4">
                         <span class="details">Total Air Time:</span>
-                        <input type="time" name="m_place">
+                        <input type="text" name="total_airtime">
                     </div>
                 </div>
             </fieldset>
@@ -515,7 +511,7 @@ if(isset($_POST['btn_capture'])) {
                 <div class="user-details" style="display:inline;">
                     <div class="input-box1">
                         <span class="details">Additional Information:</span>
-                        <textarea id="w3review" name="w3review"></textarea>
+                        <textarea id="additional_info" name="additional_info"></textarea>
                     </div>
                 </div>
             </fieldset>

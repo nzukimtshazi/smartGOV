@@ -17,8 +17,8 @@ class CreateIncidentManagementTable extends Migration
             Schema::create('incident_management', function (Blueprint $table) {
                 $table->id();
                 $table->string('name');
-                $table->integer('telephoneNo');
-                $table->integer('mobileNo');
+                $table->string('telephoneNo');
+                $table->string('mobileNo');
                 $table->string('email');
                 $table->string('reportNo');
                 $table->string('institution_type');
@@ -43,7 +43,7 @@ class CreateIncidentManagementTable extends Migration
                 $table->string('PTV');
                 $table->string('ESVs');
                 $table->string('air_support');
-                $table->string('response_co-ordination');
+                $table->string('response_co_ordination');
                 $table->string('rescue');
                 $table->string('disaster_bus');
                 $table->string('truck');
@@ -66,8 +66,11 @@ class CreateIncidentManagementTable extends Migration
                 $table->string('task_force');
                 $table->string('army');
                 $table->string('ILS');
-                $table->string('resource_co-ordination');
+                $table->string('resource_co_ordination');
                 $table->string('mountain_rescue');
+                $table->string('health_district');
+                $table->string('health_institution');
+                $table->string('health_institution_type');
                 $table->integer('inst_blue');
                 $table->integer('inst_red');
                 $table->integer('inst_yellow');
@@ -101,7 +104,7 @@ class CreateIncidentManagementTable extends Migration
                 $table->foreign('user_id')->references('id')->on('users');
                 $table->foreign('caller_id')->references('id')->on('informers');
                 $table->foreign('type_id')->references('id')->on('incident_types');
-                $table->foreign('first_onScene_id')->references('id')->on('first_on_scene');
+                $table->foreign('first_onScene_id')->references('id')->on('first_on_scenes');
             });
         }
     }

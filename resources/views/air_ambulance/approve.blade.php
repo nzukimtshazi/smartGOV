@@ -1,4 +1,4 @@
-<!-- app/views/air_ambulance/index.blade.php -->
+<!-- app/views/air_ambulance/approve.blade.php -->
 
 @extends('layout/layout')
 
@@ -12,13 +12,7 @@
             <div class="col-md-8 col-xl-8 mx-auto">
                 <div class="card">
                     <div class="card-body">
-                        <div class="btn-group mr-2 mb-sm-0 float-sm-right mt-1">
-                            <a href="air_ambulance/add" role="button"
-                               class="btn btn-sm btn-outline-info waves-light waves-effect"><i
-                                        class="ri-add-circle-line align-middle mr-2"></i>Request Air Ambulance</a>
-                        </div>
-
-                        <h4>Air Ambulance </h4>
+                        <h4>AIR AMBULANCES TO BE APPROVED</h4>
 
                         <table class="table table-striped mt-5" id="dataTable">
                         @if (count($air_ambulances) > 0)
@@ -26,7 +20,6 @@
                             <!-- Table Headings -->
                                 <thead>
                                 <th>Ref #</th>
-                                <th>View</th>
                                 <th>Date Captured</th>
                                 <th>Capturer</th>
                                 <th>Caller</th>
@@ -36,7 +29,7 @@
                                 <th>Referring Institution</th>
                                 <th>Receiving Institution</th>
                                 <th>Total Airtime</th>
-                                <th>Authority</th>
+                                <th>Action</th>
                                 </thead>
 
                                 <!-- Table Body -->
@@ -48,15 +41,6 @@
                                             <div>{{ $ambulance->reference }}</div>
                                         </td>
 
-                                        <td>
-                                            <div>
-                                                <a href="{!!URL::route('editAA',[$ambulance->id,
-                                                 'air_ambulance_id' => $ambulance->id])!!}"
-                                                   class="btn btn-sm btn-info mt-n2"><i
-                                                            class="ri-edit-2-line mr-1"></i>View</a>
-                                            </div>
-                                        </td>
-
                                         <!-- Date Captured -->
                                         <td class="table-text">
                                             <div>{{ $ambulance->created_at }}</div>
@@ -65,7 +49,7 @@
                                         <!-- Captured -->
                                         <td class="table-text">
                                             <?php
-                                                $user = \App\Models\User::find($ambulance->user_id);
+                                            $user = \App\Models\User::find($ambulance->user_id);
                                             ?>
                                             <div>{{ $user->lastName }}</div>
                                         </td>
@@ -88,7 +72,7 @@
                                         <!-- Incident -->
                                         <td class="table-text">
                                             <?php
-                                                $incident = \App\Models\Incident::find($ambulance->incident_id);
+                                            $incident = \App\Models\Incident::find($ambulance->incident_id);
                                             ?>
                                             <div>{{ $incident->description }}</div>
                                         </td>
@@ -109,8 +93,13 @@
                                         </td>
 
                                         <!-- Authority -->
-                                        <td class="table-text">
-                                            <div>{{ $ambulance->status }}</div>
+                                        <td>
+                                            <div>
+                                                <a href="{!!URL::route('editAA',[$ambulance->id,
+                                                 'air_ambulance_id' => $ambulance->id])!!}"
+                                                   class="btn btn-sm btn-info mt-n2"><i
+                                                            class="ri-edit-2-line mr-1"></i>Approve/Decline</a>
+                                            </div>
                                         </td>
 
                                     </tr>
@@ -125,6 +114,5 @@
             </div>
         </div>
     </div>
-
 @endsection
 
