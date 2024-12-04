@@ -45,7 +45,7 @@
         border-size: 13px;">Add Account Details</button>
             </aside>
 
-            <form action="{{ route('sendOTP') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('storeUser') }}" method="POST" enctype="multipart/form-data">
             @csrf
                 <div class="main p-3">
                     <div class="row">

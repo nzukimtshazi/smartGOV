@@ -154,7 +154,6 @@ class DailyOperationalController extends Controller
                             break;
                     }
                 }
-
             }
             return Redirect::route('listDOS')->with('success', 'Successfully captured daily operation status!');
         } else
