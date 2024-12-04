@@ -121,7 +121,7 @@
                                 @endforeach
                                 </tbody>
                             @else
-                                <div class="alert alert-info mt-5" role="alert">No generic calls have been made</div>
+                                <div class="alert alert-info mt-5" role="alert">No hospital/clinic status created</div>
                             @endif
                         </table>
                     </div>

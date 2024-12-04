@@ -10,9 +10,9 @@ use App\Http\Controllers\IncidentManagementController;
 use App\Http\Controllers\ComplaintManagementController;
 use App\Http\Controllers\InstitutionDailyStatusController;
 use App\Http\Controllers\ForensicController;
-use App\Http\Controllers\OTPController;
 use App\Http\Controllers\DailyOperationalController;
 use App\Http\Controllers\SMSController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,7 +59,23 @@ Route::get('user/view/{id}', [UserController::class, 'view'])->name('viewUser');
 Route::get('user/search', [UserController::class, 'search'])->name('searchUsers');
 
 // route to send otp when user registering
-Route::post('send-otp', [OTPController::class, 'sendOtp'])->name('sendOTP');
+Route::get('/send-otp/{phoneNumber}', function ($phoneNumber) {
+    $OtpService = new \App\Services\OtpService();
+
+    // Generate a random OTP (example: 6 digits)
+    $otp = rand(100000, 999999);
+
+    // Send the OTP message
+    $response = $OtpService->sendOtp($phoneNumber, $otp);
+
+    return response()->json($response);
+});
+
+// route to show otp verification form
+Route::get('/verify-otp', [UserController::class, 'showOtpForm'])->name('showForm');
+
+// route to verify otp
+Route::post('/verify_otp', [UserController::class, 'verifyOtp'])->name('verifyOTP');
 
 // route to list module
 Route::get('modules', [ModuleController::class, 'index'])->name('modules');
@@ -152,11 +168,6 @@ Route::get('forensic_mortuary', [ForensicController::class, 'index'])->name('for
 // route to edit forensic/mortuary
 Route::get('forensic_mortuary/edit/{id}', [ForensicController::class, 'edit'])->name('editFM');
 
-//Route::post('send-otp', [OTPController::class, 'sendOtp'])->name('sendOTP');
-//Route::post('verify-otp', [OTPController::class, 'verifyOtp'])->name('verifyOTP');
-//Route::post('send-sms', [OTPController::class, 'send']);
-//Route::get('test', [OTPController::class, 'test']);
-
 // add daily operational status
 Route::get('daily_operational/create', [DailyOperationalController::class, 'create'])->name('createDOS');
 
@@ -183,6 +194,22 @@ Route::get('groupSms/create', [SMSController::class, 'create'])->name('sendSMS')
 
 // route to store SMS
 Route::post('groupSms/store', [SMSController::class, 'store'])->name('storeSMS');
+
+// route to display dashboard
+Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+// route to display air ambulance history
+Route::get('dashboard/ambulance', [DashboardController::class, 'airAmbulance'])->name('ambulanceHistory');
+
+// route to display complaint management history
+Route::get('dashboard/complaint', [DashboardController::class, 'complaintManagement'])->name('complaintHistory');
+
+// route to display incident history
+Route::get('dashboard/incident', [DashboardController::class, 'incidentHistory'])->name('incidentHistory');
+
+// route to display incident history
+Route::get('dashboard/operational', [DashboardController::class, 'dailyHistory'])->name('operationalHistory');
+
 
 
 

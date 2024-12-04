@@ -6,17 +6,23 @@ use App\Models\District;
 use App\Models\Institution;
 use App\Models\Role;
 use App\Models\User;
+use App\Services\OtpService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+    protected $OtpService;
+
+    public function __construct(OtpService $OtpService)
+    {
+        $this->OtpService = $OtpService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -66,31 +72,19 @@ class UserController extends Controller
             return Redirect::route('addUser')->withInput()->with('danger', 'User with email "' . $request->email . '" already exists!');
         }
 
-        $data = [
-            'phone_number' => $request->mobile_number
-        ];
-
-        $response = Http::post(route('sendOTP'), $data);
-
-        if ($response->successful()) {
-            // OTP sent successfully, now you can proceed with sending the OTP to the user.
-            return response()->json(['message' => 'OTP sent successfully, please verify it.']);
-        } else {
-            // Handle failure
-            return response()->json(['message' => 'Failed to send OTP.'], 500);
-        }
-
-
-        $district = District::find($request->district);
-        $institution = Institution::find($request->institution);
-        $role = Role::find($request->role_id);
         $filename = '';
-
         if ($request->hasFile('image')) {
             $filename = $request->getSchemeAndHttpHost() . '/images/' . time() . '.' . $request->image->extension();
             $request->image->move(public_path('/images/'), $filename);
         }
-        $user = User::create([
+        // Storing the file path
+        Session::put('uploaded_file_path', $filename);
+
+        $district = District::find($request->district);
+        $institution = Institution::find($request->institution);
+        $role = Role::find($request->role_id);
+        // Storing user data
+        $request->session()->put('user_data', [
             'firstName' => $request->fname,
             'lastName' => $request->lname,
             'contactNo' => $request->mobile_number,
@@ -103,7 +97,45 @@ class UserController extends Controller
             'user_role' => $role->description,
         ]);
 
-        return view('user.login');
+        $otp = rand(100000, 999999);  // Generate a 6-digit OTP
+        Session::put('otp', $otp);
+        $this->OtpService->sendOtp($request->mobile_number, $otp);
+
+        return view('user.verify_otp');
+    }
+
+    // Show OTP Form
+    public function showOtpForm()
+    {
+        return view('user.verify_otp');
+    }
+
+    // Verify OTP
+    public function verifyOtp(Request $request)
+    {
+        $request->validate([
+            'otp' => 'required|digits:6',
+        ]);
+
+        if ($request->otp == Session::get('otp')) {
+            $user_data = $request->session()->get('user_data');;
+
+            $user = new User();
+            $user->firstName = $user_data['firstName'];
+            $user->lastName = $user_data['lastName'];
+            $user->contactNo = $user_data['contactNo'];
+            $user->email = $user_data['email'];
+            $user->password = $user_data['password'];
+            $user->userName = $user_data['userName'];
+            $user->image_path = $user_data['image_path'];
+            $user->district = $user_data['district'];
+            $user->institution = $user_data['institution'];
+            $user->user_role = $user_data['user_role'];
+            $user->save();
+            return Redirect::route('users')->with('success', 'Successfully added a user');
+        } else {
+            return Redirect::route('showForm')->withErrors(['otp' => 'Invalid OTP']);
+        }
     }
 
     /**

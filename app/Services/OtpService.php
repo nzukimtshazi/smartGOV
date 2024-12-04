@@ -8,50 +8,29 @@
 
 namespace App\Services;
 
-use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Http;
 
 class OtpService
 {
-    protected $client;
-    protected $apiUrl;
     protected $username;
     protected $password;
+    protected $apiUrl = 'https://www.winsms.co.za/api/batchmessage.asp';
 
     public function __construct()
     {
-        $this->client = new Client();
-        $this->apiUrl = 'https://api.winsms.co.za/api/smsSend';
-        $this->username = env('WINSMS_USERNAME'); // Store in .env
-        $this->password = env('WINSMS_PASSWORD'); // Store in .env
+        $this->username = env('WINSMS_USERNAME');
+        $this->password = env('WINSMS_PASSWORD');
     }
 
-    public function sendOtp($phoneNumber, $otp)
+    public function sendOtp($to, $otp)
     {
-        $message = "Your OTP is: $otp";
-
-        try {
-            $response = $this->client->post($this->apiUrl, [
-                'form_params' => [
-                    'username' => $this->username,
-                    'password' => $this->password,
-                    'api_key' => env('WINSMS_API_KEY'),
-                    'to' => $phoneNumber,
-                    'message' => $message,
-                    'from' => 'YourApp', // Sender ID
-                ]
-            ]);
-
-            $responseBody = json_decode($response->getBody()->getContents(), true);
-
-            if ($responseBody['status'] == 'success') {
-                return true;
-            }
-
-            return false;
-
-        } catch (\Exception $e) {
-            // Handle errors
-            return false;
-        }
+        $message = "Your OTP code is: $otp";
+        $response = Http::get($this->apiUrl, [
+            'user' => $this->username,
+            'password' => $this->password,
+            'message' => $message,
+            'numbers' => $to,
+        ]);
+        return $response->json();
     }
 }
