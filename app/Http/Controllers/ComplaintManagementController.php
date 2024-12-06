@@ -36,11 +36,9 @@ class ComplaintManagementController extends Controller
      */
     public function add()
     {
-        $districts = District::where('id', '>', 0)->get();
         $institutions = Institution::where('id', '>', 0)->get();
         $complaint_types = Complaint::where('id', '>', 0)->get();
-
-        return view('complaint_management.add', compact('districts', 'institutions', 'complaint_types'));
+        return view('complaint_management.add', compact('institutions', 'complaint_types'));
     }
     /**
      * Store a newly created resource in storage.
@@ -62,15 +60,15 @@ class ComplaintManagementController extends Controller
         $complaint_management->contact_person = $request->contact_person;
         $complaint_management->location = $request->location;
         $complaint_management->location_ofIncident = $request->location_ofIncident;
-        $district = District::find($request->district2);
-        $complaint_management->district_name = $district->name;
-        $institution = Institution::find($request->institution2);
+        $complaint_management->district_name = $request->district2_id;
+        $institution = Institution::find($request->institution2_id);
         $complaint_management->institution_name = $institution->name;
-        $complaint_management->complaint_institution_type = $request->com_institution_type;
+        $complaint_management->complaint_institution_type = $request->institution2_type;
         $complaint_management->additional_info = $request->additional_info;
         $complaint_management->reference = 'CM-' . time() . '-' . rand(0, 00);
-        $complaint_management->district_id = $request->district;
-        $complaint_management->institution_id = $request->institution;
+        $district = District::where('name', '=', $request->district_id)->first();
+        $complaint_management->district_id = $district->id;
+        $complaint_management->institution_id = $request->institution_id;
         $user = Auth::user();
         $complaint_management->user_id = $user->getAuthIdentifier();
         $complaint_management->complaints_id = $request->type_id;

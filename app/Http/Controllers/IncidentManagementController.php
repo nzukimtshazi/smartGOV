@@ -37,14 +37,13 @@ class IncidentManagementController extends Controller
      */
     public function add()
     {
-        $districts = District::where('id', '>', 0)->get();
         $institutions = Institution::where('id', '>', 0)->get();
         $callers = Informers::where('id', '>', 0)->get();
         $incident_types = IncidentType::where('id', '>', 0)->get();
         $first_onScenes = FirstOnScene::where('id', '>', 0)->get();
 
-        return view('incident_management.add', compact('districts', 'institutions', 'callers',
-            'incident_types', 'first_onScenes'));
+        return view('incident_management.add', compact('institutions', 'callers', 'incident_types',
+            'first_onScenes'));
     }
 
     public function store(Request $request)
@@ -56,7 +55,7 @@ class IncidentManagementController extends Controller
         $incident_management->mobileNo = $request->mobileNo;
         $incident_management->email = $request->e_mail;
         $incident_management->reportNo = $request->reportNo;
-        $incident_management->institution_type = $request->type;
+        $incident_management->institution_type = $request->institution_type;
         $incident_management->route = $request->route;
         $incident_management->GPS_latitude = $request->gps_latitude;
         $incident_management->GPS_longitude = $request->gps_longitude;
@@ -103,11 +102,10 @@ class IncidentManagementController extends Controller
         $incident_management->ILS = $request->ils;
         $incident_management->resource_co_ordination = $request->hrCo;
         $incident_management->mountain_rescue = $request->hrRescue;
-        $district = District::find($request->district2);
-        $incident_management->health_district = $district->name;
-        $institution = Institution::find($request->institution2);
+        $incident_management->health_district = $request->district2_id;
+        $institution = Institution::find($request->institution2_id);
         $incident_management->health_institution = $institution->name;
-        $incident_management->health_institution_type = $request->type;
+        $incident_management->health_institution_type = $request->institution2_type;
         $incident_management->inst_blue = $request->health_blue;
         $incident_management->inst_red = $request->health_red;
         $incident_management->inst_yellow = $request->health_yellow;
@@ -127,8 +125,9 @@ class IncidentManagementController extends Controller
         $incident_management->MRCC_activated = $request->mrcc;
         $incident_management->call_status = $request->additional_info;
         $incident_management->reference = 'IM-' . time() . '-' . rand(0, 00);
-        $incident_management->district_id = $request->district;
-        $incident_management->institution_id = $request->institution;
+        $district = District::where('name', '=', $request->district_id)->first();
+        $incident_management->district_id = $district->id;
+        $incident_management->institution_id = $request->institution_id;
         $user = Auth::user();
         $incident_management->user_id = $user->getAuthIdentifier();
         $incident_management->caller_id = $request->caller_id;

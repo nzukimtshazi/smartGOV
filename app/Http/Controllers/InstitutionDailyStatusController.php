@@ -37,11 +37,10 @@ class InstitutionDailyStatusController extends Controller
      */
     public function add()
     {
-        $districts = District::where('id', '>', 0)->get();
         $institutions = Institution::where('id', '>', 0)->get();
         $roles = Role::where('id', '>', 0)->get();
 
-        return view('institution_status.add', compact('districts', 'institutions', 'roles'));
+        return view('institution_status.add', compact('institutions', 'roles'));
     }
 
 
@@ -53,7 +52,7 @@ class InstitutionDailyStatusController extends Controller
         $institution_status->name = $request->name;
         $institution_status->role_id = $request->role_id;
         $institution_status->mobileNo = $request->mobileNo;
-        $institution_status->email = $request->email;
+        $institution_status->email = $request->e_mail;
         $institution_status->institution_type = $request->institution_type;
         $institution_status->manager = $request->manager;
         $institution_status->contactNo = $request->contactNo;
@@ -65,8 +64,9 @@ class InstitutionDailyStatusController extends Controller
         $institution_status->births_information = $request->birth_info;
         $institution_status->call_status = $request->additional_info;
         $institution_status->reference = 'HCDS-' . time() . '-' . rand(0, 00);
-        $institution_status->district_id = $request->district;
-        $institution_status->institution_id = $request->institution;
+        $district = District::where('name', '=', $request->district_id)->first();
+        $institution_status->district_id = $district->id;
+        $institution_status->institution_id = $request->institution_id;
         $user = Auth::user();
         $institution_status->user_id = $user->getAuthIdentifier();
 
@@ -79,7 +79,7 @@ class InstitutionDailyStatusController extends Controller
                 $dept->beds_occupied = $department['occupied'];
                 $dept->occupancy_rate = round(($department['occupied'] / $department['count']) * 100, 2);
                 $dept->reference = $institution_status->reference;
-                $dept->institution_id = $request->institution;
+                $dept->institution_id = $request->institution_id;
                 $dept->save();
             }
             return Redirect::route('instStatus')->with('success', 'Successfully reported institution status!');

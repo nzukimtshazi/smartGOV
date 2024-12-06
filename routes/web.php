@@ -13,6 +13,7 @@ use App\Http\Controllers\ForensicController;
 use App\Http\Controllers\DailyOperationalController;
 use App\Http\Controllers\SMSController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ResetPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -115,7 +116,7 @@ Route::get('air_ambulance', [AirAmbulanceController::class, 'index'])->name('air
 Route::get('air_ambulance/approve', [AirAmbulanceController::class, 'approve'])->name('approveAA');
 
 //route to edit and approve an air ambulance record
-Route::get('air_ambulance/edi/{id}', [AirAmbulanceController::class, 'edit'])->name('editAA');
+Route::get('air_ambulance/edit/{id}', [AirAmbulanceController::class, 'edit'])->name('editAA');
 
 // route to approve/decline air ambulance
 Route::PATCH('air_ambulance/update/{id}', [AirAmbulanceController::class, 'update'])->name('updateAA');
@@ -210,6 +211,15 @@ Route::get('dashboard/incident', [DashboardController::class, 'incidentHistory']
 // route to display incident history
 Route::get('dashboard/operational', [DashboardController::class, 'dailyHistory'])->name('operationalHistory');
 
+// route to display reset password screen
+Route::get('forgot-password', [ResetPasswordController::class, 'showReset'])->name('forgotPassword');
 
+// route to validate email/username and reset password
+Route::post('forgot-password', [ResetPasswordController::class, 'validateUser'])->name('resetPassword');
+
+// route to update password
+Route::post('reset-password', [ResetPasswordController::class, 'update'])->name('updatePassword');
+
+Route::get('/districts/{institutionId}', [AirAmbulanceController::class, 'getDistrictByInstitution']);
 
 

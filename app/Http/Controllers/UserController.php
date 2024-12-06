@@ -80,8 +80,8 @@ class UserController extends Controller
         // Storing the file path
         Session::put('uploaded_file_path', $filename);
 
-        $district = District::find($request->district);
-        $institution = Institution::find($request->institution);
+        $district = District::find($request->district_id);
+        $institution = Institution::find($request->institution_id);
         $role = Role::find($request->role_id);
         // Storing user data
         $request->session()->put('user_data', [
@@ -117,22 +117,28 @@ class UserController extends Controller
             'otp' => 'required|digits:6',
         ]);
 
-        if ($request->otp == Session::get('otp')) {
-            $user_data = $request->session()->get('user_data');;
+        $user_data = $request->session()->get('user_data');
 
-            $user = new User();
-            $user->firstName = $user_data['firstName'];
-            $user->lastName = $user_data['lastName'];
-            $user->contactNo = $user_data['contactNo'];
-            $user->email = $user_data['email'];
-            $user->password = $user_data['password'];
-            $user->userName = $user_data['userName'];
-            $user->image_path = $user_data['image_path'];
-            $user->district = $user_data['district'];
-            $user->institution = $user_data['institution'];
-            $user->user_role = $user_data['user_role'];
-            $user->save();
-            return Redirect::route('users')->with('success', 'Successfully added a user');
+        if ($request->otp == Session::get('otp')) {
+            if ($user_data) {
+                $user = new User();
+                $user->firstName = $user_data['firstName'];
+                $user->lastName = $user_data['lastName'];
+                $user->contactNo = $user_data['contactNo'];
+                $user->email = $user_data['email'];
+                $user->password = $user_data['password'];
+                $user->userName = $user_data['userName'];
+                $user->image_path = $user_data['image_path'];
+                $user->district = $user_data['district'];
+                $user->institution = $user_data['institution'];
+                $user->user_role = $user_data['user_role'];
+                $user->save();
+                if ($user->user_role === 'General Public')
+                    return Redirect::route('login')->with('success', 'Successfully added a user');
+                else
+                    return Redirect::route('users')->with('success', 'Successfully added a user');
+            } else
+                return view('user.changePassword');
         } else {
             return Redirect::route('showForm')->withErrors(['otp' => 'Invalid OTP']);
         }

@@ -1,31 +1,77 @@
 <!-- app/views/user/index.blade.php  (displays ALL USERS) -->
 
-@extends('layout/layout')
+@extends('layout.layout')
+
+@section('title', 'ALL USERS')
+
+@section('additional_css')
+    <style>
+        .card {
+            margin: 0 1rem;
+        }
+
+        .table th {
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .table td {
+            padding: 0.5rem;
+            font-size: 0.9rem;
+            vertical-align: middle;
+        }
+
+        .table-text {
+            margin: 0;
+        }
+
+        .btn-action {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            background-color: #ffc107;
+            color: #333;
+        }
+
+        .status-approved {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .status-declined {
+            background-color: #dc3545;
+            color: #fff;
+        }
+    </style>
+@endsection
 
 @section('content')
-
-    <!-- Current users -->
-    <head>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="your-script.js"></script>
-    </head>
-
-    <div class="page-content d-flex align-items-center justify-content-center">
-
-        <div class="row w-100 mr-5 auth-page">
-            <div class="col-md-8 col-xl-8 mx-auto">
+    <div class="container-fluid px-4">
+        <div class="row">
+            <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h4>ALL USERS
-                            <div class="btn-group ml-auto mb-sm-0 float-sm-right mt-1 text-right">
-                                <form action="{{ route('searchUsers') }}" method="GET" class="d-inline-block">
-                                    <input type="text" name="query" placeholder="Search..." value="{{ request()->query('query') }}">
-                                </form>
-                                <a href="user/add" role="button" class="btn btn-sm btn-outline-info waves-light waves-effect ml-2">
-                                    <i class="ri-add-circle-line align-middle mr-2"></i>Add User
-                                </a>
-                            </div>
-                        </h4>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h3 class="mb-0">ALL USERS</h3>
+                            <form action="{{ route('searchUsers') }}" method="GET" class="d-inline-block">
+                                <input type="text" name="query" placeholder="Search..." value="{{ request()->query('query') }}">
+                            </form>
+                            <a href="user/add" class="btn btn-primary">
+                                <i class="fas fa-plus-circle me-2"></i>Add a user
+                            </a>
+                        </div>
 
                         <table class="table table-striped mt-5" id="dataTable">
                         @if (count($users) > 0)
@@ -62,12 +108,15 @@
                                 <div class="alert alert-info mt-5" role="alert">No users are available</div>
                             @endif
                         </table>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
+@endsection
 
+@section('additional_js')
     <script type="text/javascript">
         document.querySelectorAll('.toggle-btn').forEach(button => {
             button.addEventListener('click', function () {
@@ -89,4 +138,3 @@
         });
     </script>
 @endsection
-

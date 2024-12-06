@@ -37,12 +37,11 @@ class AirAmbulanceController extends Controller
      */
     public function add()
     {
-        $districts = District::where('id', '>', 0)->get();
         $institutions = Institution::where('id', '>', 0)->get();
         $caseTypes = CaseType::where('id', '>', 0)->get();
         $incidents = Incident::where('id', '>', 0)->get();
 
-        return view('air_ambulance.add', compact('districts', 'institutions', 'caseTypes', 'incidents'));
+        return view('air_ambulance.add', compact('institutions', 'caseTypes', 'incidents'));
     }
 
     // store page 1
@@ -78,17 +77,15 @@ class AirAmbulanceController extends Controller
         $air_ambulance->caller_type = $combinedData['call_type'];
         $air_ambulance->service_provider = $combinedData['service_provider'];
         $air_ambulance->motivation = $combinedData['motivation'];
-        $district = District::find($combinedData['district2']);
-        $air_ambulance->referring_district = $district->name;
-        $institution = Institution::find($combinedData['institution2']);
+        $air_ambulance->referring_district = $combinedData['ref_district_id'];
+        $institution = Institution::find($combinedData['ref_institution_id']);
         $air_ambulance->referring_institution = $institution->name;
         $air_ambulance->referring_ward = $combinedData['ward'];
         $air_ambulance->referring_doctor = $combinedData['doctor'];
         $air_ambulance->referring_telephoneNo = $combinedData['telephone_no'];
         $air_ambulance->referring_mobileNo = $combinedData['mobile_no'];
-        $recDistrict = District::find($combinedData['district3']);
-        $air_ambulance->receiving_district = $recDistrict->name;
-        $recInst = Institution::find($combinedData['institution3']);
+        $air_ambulance->receiving_district = $combinedData['rec_district_id'];
+        $recInst = Institution::find($combinedData['rec_institution_id']);
         $air_ambulance->receiving_institution = $recInst->name;
         $air_ambulance->receiving_ward = $combinedData['recWard'];
         $air_ambulance->receiving_doctor = $combinedData['recDoctor'];
@@ -137,7 +134,7 @@ class AirAmbulanceController extends Controller
         $air_ambulance->glasgow_comaScale = $combinedData['n_glasgow'];
         $air_ambulance->eyes = $combinedData['n_eyes'];
         $air_ambulance->motor = $combinedData['n_motor'];
-        $air_ambulance->verbal = $combinedData['n_vebal'];
+        $air_ambulance->verbal = $combinedData['n_verbal'];
         $air_ambulance->pupils = $combinedData['n_pupils'];
         $air_ambulance->left_pupil = $combinedData['n_left'];
         $air_ambulance->right_pupil = $combinedData['n_right'];
@@ -182,8 +179,9 @@ class AirAmbulanceController extends Controller
         $air_ambulance->additional_info = $combinedData['additional_info'];
         $air_ambulance->status = 'Logged';
         $air_ambulance->reference = 'AA-' . time() . '-' . rand(0, 00);
-        $air_ambulance->district_id = $combinedData['district'];
-        $air_ambulance->institution_id = $combinedData['institution'];
+        $district = District::where('name', '=', $combinedData['district_id'])->first();
+        $air_ambulance->district_id = $district->id;
+        $air_ambulance->institution_id = $combinedData['institution_id'];
         $user = Auth::user();
         $air_ambulance->user_id = $user->getAuthIdentifier();
         $air_ambulance->caseType_id = $combinedData['caseType_id'];
@@ -235,5 +233,12 @@ class AirAmbulanceController extends Controller
             ->where('status', '=', 'Logged')->get();
 
         return view('air_ambulance.approve', compact('air_ambulances'));
+    }
+
+    public function getDistrictByInstitution($institutionId)
+    {
+        $institution = Institution::find($institutionId);
+        $district = $institution ? $institution->district : null; // Get the associated district
+        return response()->json(['district' => $district]);
     }
 }

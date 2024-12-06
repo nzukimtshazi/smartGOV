@@ -38,10 +38,8 @@ class GenericCallController extends Controller
      */
     public function create()
     {
-        $districts = District::where('id', '>', 0)->get();
         $institutions = Institution::where('id', '>', 0)->get();
-
-        return view('generic_call.create', compact('districts', 'institutions'));
+        return view('generic_call.create', compact('institutions'));
     }
     /**
      * Store a newly created resource in storage.
@@ -59,10 +57,11 @@ class GenericCallController extends Controller
         $genericCall->email = $request->email;
         $genericCall->call_type = $request->call_type;
         $genericCall->institution_type = $request->institution_type;
-        $genericCall->call_status = $request->complaint_info;
+        $genericCall->call_status = $request->additional_info;
         $genericCall->reference = 'GC-' . time() . '-' . rand(0, 00);
-        $genericCall->district_id = $request->district;
-        $genericCall->institution_id = $request->institution;
+        $district = District::where('name', '=', $request->district_id)->first();
+        $genericCall->district_id = $district->id;
+        $genericCall->institution_id = $request->institution_id;
         $user = Auth::user();
         $genericCall->user_id = $user->getAuthIdentifier();
 
