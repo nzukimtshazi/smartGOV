@@ -10,7 +10,6 @@ namespace App\Http\Controllers;
 
 use App\Models\AirAmbulance;
 use app\Models\ComplaintManagement;
-use App\Models\DailyOperationalStatus;
 use App\Models\IncidentManagement;
 use Illuminate\Http\Request;
 
